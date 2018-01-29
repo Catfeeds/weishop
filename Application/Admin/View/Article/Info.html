@@ -1,0 +1,251 @@
+<include file="Base/header" />
+<include file="Base/menu" />
+<style type="text/css">
+    .dataTables_filter label{float: right;}
+    .pagination{margin: 0px;float: right;}
+    span.yyx_error{margin-top: 6px;padding-left: 5px;display:inline-block;color: red}
+    .hyx-img{height: 100%;width: 100%;overflow: hidden;}
+    .hyx-check-img{margin-left: 160px;}
+    #content{width: 400px;height: 128px;}
+</style>
+        <!-- END SIDEBAR -->
+        <!-- BEGIN PAGE -->
+        <div class="page-content">
+            <!-- BEGIN PAGE CONTAINER-->
+            <div class="container-fluid">
+                <!-- BEGIN PAGE HEADER-->
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                        <h3 class="page-title">
+                            <!-- 主页 <small>这里是xx平台管理后台</small> -->
+                        </h3>
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="icon-home"></i>
+                                <a >文章管理</a>
+                                <i class="icon-angle-right"></i>
+                            </li>
+                            <li>
+                                <a href="__CONTROLLER__/Article">文章列表</a>
+                                <i class="icon-angle-right"></i>
+                            </li>
+                            <li><a >文章详情</a></li>
+                        </ul>
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+                    </div>
+                </div>
+                <!-- yyx 内容 -->
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- BEGIN SAMPLE FORM PORTLET-->
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption"><i class="icon-reorder"></i>{$data.title}</div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"></a>
+                                    <a href="javascript:;" class="remove"></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <!-- BEGIN FORM-->
+                                <form action="__SELF__" enctype="multipart/form-data" class="form-horizontal" id="form1" method="post">
+                                 <input type="hidden" name="id" value="{$data.id}" />
+                                    <div class="control-group">
+                                        <label class="control-label">主标题</label>
+                                        <div class="controls">
+                                            <input id="title" type="text" class="span3 m-wrap" name="title" value="{$data.title}" required>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">副标题</label>
+                                        <div class="controls">
+                                            <input id="title2" type="text" class="span3 m-wrap" name="title2" value="{$data.title2}" required>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">排序号</label>
+                                        <div class="controls">
+                                            <input id="hot" type="text" class="span3 m-wrap" name="hot" value="{$data.hot}" required>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                          <div class="control-group">
+                                              <label class="control-label">简介图片</label>
+                                              <div class="controls">
+                                                  <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                      <div class="fileupload-new thumbnail" style="width: 131px; height:131px;">
+                                                          <img id="logoimg" class="hyx-img" src="__PUBLIC__/{$data.img}" alt=""  />
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <label for="imgfile" class="btn blue hyx-check-img">选择图片</label>
+                                          <input id="imgfile" type="file" name="photo" onchange="javascript:setImagePreview(this,'logoimg',131,131);" style="display: none;" />
+                                     </div>
+                                  <div class="control-group">
+                                        <label class="control-label">模块</label>
+                                        <div class="controls">
+                                          <select class="small m-wrap" tabindex="1" id="mokuai">
+                                             <foreach name="class" item="vo">
+                                               <if condition="$vo['id'] eq $type1['class_id']">
+                                                <option value="{$vo.id}" selected>{$vo.myclass}</option>
+                                               <else/>
+                                                <option value="{$vo.id}">{$vo.myclass}</option>
+                                               </if>
+                                             </foreach>
+                                           </select>
+                                        </div>
+                                  </div>
+                                   <div class="control-group">
+                                        <label class="control-label">类别</label>
+                                        <div class="controls">
+                                          <select id="lables" name="article_type_id" class="small m-wrap" tabindex="1">
+                                             <foreach name="type" item="vo">
+                                               <if condition="$data['article_type_id'] eq $vo['id']">
+                                                <option value="{$vo.id}" selected>{$vo.type}</option>
+                                               <else/>
+                                                <option value="{$vo.id}">{$vo.type}</option>
+                                               </if>
+                                             </foreach>
+                                           </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">详情链接</label>
+                                        <div class="controls">
+                                            <input type="text" class="span3 m-wrap" name="content" value="{$data.content}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="btn blue">保存</button>
+                                        <div class="btn" onclick="fanhui()">返回</div>
+                                    </div>
+                                </form>
+                                <!-- END FORM-->
+                            </div>
+                        </div>
+                        <!-- END SAMPLE FORM PORTLET-->
+                    </div>
+                </div>
+            </div>
+        </div>
+<script type="text/javascript" src="__PUBLIC__/js/bootstrap-fileupload.js"></script>
+<!-- 配置文件 -->
+<script>
+jQuery(document).ready(function() {
+
+      $('#mokuai').click(function(){
+            $(this).change(function(){
+                var   value = $(this).val();
+                $.ajax({
+                    type:"POST",
+                    url:"__CONTROLLER__/Mkchange",
+                    data:{'class_id':value},
+                    success:function(data){
+                        console.log(data);
+                        $("#lables").empty();
+                        var count = data.length;
+                        var i = 0;
+                        var b="";
+                           for(i=0;i<count;i++){
+                               b+="<option value='"+data[i].id+"'>"+data[i].type+"</option>";
+                           }
+                        $("#lables").append(b);
+                    }
+                });
+               });
+        }
+    );
+
+    var sex="{$data.sex}";
+    var group_id="{$data.group_id}";
+    $("#group_id").children("[value="+group_id+"]").attr("selected","selected");
+    $("#sex").children("[value="+sex+"]").attr("selected","selected");
+    $('#form1').validate({
+        rules:{
+            title:{maxlength:50},
+            title2:{maxlength:50},
+            hot:{min:0},
+        //  balance:{min:0},
+        },
+        messages:{
+            title:{maxlength:"不得超过50个汉字",required:"请输入主标题"},
+            title2:{maxlength:"不得超过50个汉字",required:"请输入副标题"},
+            hot:{number:"请输入有效数字",required:"请输入排序号"},
+        },
+        errorPlacement: function(error, element) {
+                element.after(error);
+        },
+        errorClass:"yyx_error",
+        errorElement:"span",
+        submitHandler: function (form) {
+                 var img = new FormData($( "#form1" )[0]);
+                      $.ajax({
+                          type:'POST',
+                          url: "{:U('Admin/Article/Info')}",
+                          data: img,
+                          contentType: false,
+                          processData: false,
+                          success:  function(msg){
+                            if (msg==1) {
+                                alert('修改成功！');
+                                window.location.href="{:U('Admin/Article/Index')}";
+                            }else{
+                                yyxalert('网络繁忙！')
+                            }
+                      }
+                      });
+                      return false;
+            }
+    });
+});
+window.focus();
+//下面用于图片上传预览功能
+function setImagePreview(obj,id,width,height) {
+var imgObjPreview=document.getElementById(id);
+var regu=/^.*[^a][^b][^c]\.(?:png|jpg)$/;
+var re=new RegExp(regu);
+if (!re.test(obj.value)) {
+  yyxalert('请选着jpg或png格式图片！');
+  return;
+}
+if(obj.files &&obj.files[0])
+{
+//火狐下，直接设img属性
+imgObjPreview.style.display = 'block';
+imgObjPreview.style.width = width+'px';
+imgObjPreview.style.height = height+'px';
+//imgObjPreview.src = obj.files[0].getAsDataURL();
+//火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+imgObjPreview.src = window.URL.createObjectURL(obj.files[0]);
+}
+else
+{
+//IE下，使用滤镜
+obj.select();
+var imgSrc = document.selection.createRange().text;
+var localImagId = document.getElementById("localImag");
+//必须设置初始大小
+localImagId.style.width = "200px";
+localImagId.style.height = "200px";
+//图片异常的捕捉，防止用户修改后缀来伪造图片
+try{
+localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+}
+catch(e)
+{
+alert("您上传的图片格式不正确，请重新选择!");
+return false;
+}
+imgObjPreview.style.display = 'none';
+document.selection.empty();
+}
+return true;
+}
+function fanhui(){
+    history.go(-1);
+}
+</script>
+<include file="Base/foot" />

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title></title>
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/common.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/index.css">
+    <title></title>
+    <style type="text/css">
+    .address-body{background-color: #E4E4E4;height: 100%;width: 100%;}
+    .top{height: 40px;background-color: #FFFFFF;width: 100%;position: relative;}
+    .add-address,.address{line-height: 40px;}
+    .address{margin-left: 14px;}
+    .add-address{float: right;margin-right: 14px;color: #78aab5;}
+    .lit{height:10px;width: 100%}
+    .address-info{height: 65px;width: 100%;background-color: #FFFFFF;border-bottom: 1px solid #E0E0E0;}
+    .address-one-info,.per-info{margin-left: 14px;margin-top: 10px;}
+    .per-info{font-size: 12px;color:#8e8a8a;}
+    .phone{margin-left: 6px;}
+    .sex-css{margin-left: 4px;}
+    .address-info-right,.address-info-left{display: inline-block;}
+    /*.address-info-left{float:left;}*/
+    .address-info-right{float: right;margin-top: 10px;}
+    .address{margin-left: 2em;}
+    .moren{margin-left:14px;margin-top: 10px;color: #8e8a8a}
+    .mrinput{margin-top: 10px;}
+    .mrcheck{color: #78aab5;}
+    </style>
+</head>
+<body>
+<div class="address-body">
+    <div class="top center">
+        <span class="address">我的收货地址</span>
+        <div class="add-address" onclick="go2AddAddress()">新增</div>
+    </div>
+    <div class="lit"></div>
+<foreach name="address" item="vo" >
+    <div class="address-info" onclick="xuan('{$vo.id}')">
+        <div class="address-info-left"  >
+            <div class="text-overflow address-one-info">
+               厦门市{$vo.mycity}{$vo.address}
+            </div>
+            <div class="per-info">
+                <span>{$vo.name}</span>
+            <if condition="$vo.sex eq 1">
+                <span class="sex-css">先生</span>
+            <else/>
+                <span class="sex-css">女士</span>
+            </if>
+                <span class="phone">{$vo.phone}</span>
+            </div>
+        </div>
+
+    </div>
+
+</foreach>
+
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/cookie.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/msgalert.js"></script>
+<script type="text/javascript">
+    var timestamp = Date.parse(new Date());
+   function xuan(id){
+        window.location.href="__MODULE__/Index/OrderInfo?id="+id
+   }
+
+   function go2AddAddress(){
+    window.location.href="{:U('Api/PersonInfo/Add_address')}"
+   }
+</script>
+</body>
+</html>

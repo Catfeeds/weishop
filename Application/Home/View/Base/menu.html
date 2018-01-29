@@ -1,0 +1,162 @@
+
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">		
+
+			<!-- BEGIN SIDEBAR MENU -->        
+
+			<ul class="page-sidebar-menu">
+
+				<li>
+
+					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+					<div class="sidebar-toggler hidden-phone"></div>
+
+					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+				</li>
+
+
+				<li class="start ">
+					<a href="index.html">
+					<i class="icon-home"></i> 
+					<span class="title">主页</span>
+					</a>
+				</li>
+
+				<li class="" id="menu-Index">
+					<a href="javascript:;">
+						<i class="icon-cogs"></i> 
+						<span class="title">Layouts</span>
+						<span class="selected"></span>
+						<span class="arrow open"></span>
+					</a>
+
+					<ul class="sub-menu">
+						<li class="" id="Index-index">
+							<a href="__MODULE__/Index/index">空白页</a>
+						</li>
+						<li id="Index-Table">
+							<a href="__MODULE__/Index/Table">表格页</a>
+						</li>
+						<li id="Index-Info">
+							<a href="__MODULE__/Index/Info">详情页</a>
+						</li>
+					</ul>
+
+				</li>
+
+				<li class="">
+
+					<a href="javascript:;">
+
+					<i class="icon-user"></i> 
+
+					<span class="title">UI Features</span>
+
+					<span class="arrow "></span>
+
+					</a>
+					<ul class="sub-menu">
+						<li >
+							<a href="__MODULE__/Index/index">1</a>
+						</li>
+						<li >
+							<a href="__MODULE__/Index/index">2</a>
+						</li>
+					</ul>
+
+				</li>
+
+
+				<!-- yyx 三级目录 -->
+			<!-- 	<li>
+					<a class="active" href="javascript:;">
+
+					<i class="icon-sitemap"></i> 
+
+					<span class="title">3 Level Menu</span>
+
+					<span class="arrow "></span>
+
+					</a>
+
+					<ul class="sub-menu">
+
+						<li>
+
+							<a href="javascript:;">
+
+							Item 1
+
+							<span class="arrow"></span>
+
+							</a>
+
+							<ul class="sub-menu">
+
+								<li><a href="#">Sample Link 1</a></li>
+
+								<li><a href="#">Sample Link 2</a></li>
+
+								<li><a href="#">Sample Link 3</a></li>
+
+							</ul>
+
+						</li>
+
+						<li>
+
+							<a href="javascript:;">
+
+							Item 1
+
+							<span class="arrow"></span>
+
+							</a>
+
+							<ul class="sub-menu">
+
+								<li><a href="#">Sample Link 1</a></li>
+
+								<li><a href="#">Sample Link 1</a></li>
+
+								<li><a href="#">Sample Link 1</a></li>
+
+							</ul>
+
+						</li>
+
+						<li>
+
+							<a href="#">
+
+							Item 3
+
+							</a>
+
+						</li>
+
+					</ul>
+
+				</li>
+ -->
+
+
+
+
+			</ul>
+	</div>			
+<script type="text/javascript">
+
+//输入 处理数据 输出
+//dom  html/css html/css
+
+
+$(document).ready(function(){
+	$('#menu-<?php echo CONTROLLER_NAME; ?>').addClass('active');
+	$('#<?php echo CONTROLLER_NAME; ?>-<?php echo ACTION_NAME; ?>').addClass('active');
+});
+</script>
+
+			<!-- END SIDEBAR MENU -->

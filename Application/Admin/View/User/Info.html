@@ -1,0 +1,257 @@
+<include file="Base/header" />
+<include file="Base/menu" />
+<style type="text/css">
+	.dataTables_filter label{float: right;}
+	.pagination{margin: 0px;float: right;}
+	span.yyx_error{margin-top: 6px;padding-left: 5px;display:inline-block;color: red}
+</style>
+
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+
+		<div class="page-content">
+
+			<!-- BEGIN PAGE CONTAINER-->
+
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE HEADER-->
+
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+						<h3 class="page-title">
+
+							<!-- 主页 <small>这里是xx平台管理后台</small> -->
+
+						</h3>
+
+						<ul class="breadcrumb">
+
+							<li>
+								<i class="icon-home"></i>
+								<a >用户管理</a>
+								<i class="icon-angle-right"></i>
+							</li>
+							<li>
+								<a href="__CONTROLLER__/User_list">用户列表</a>
+								<i class="icon-angle-right"></i>
+							</li>
+							<li><a >用户详情</a></li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+
+
+				<!-- yyx 内容 -->
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN SAMPLE FORM PORTLET-->
+
+						<div class="portlet box blue">
+
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-reorder"></i>{$data.username}</div>
+
+								<div class="tools">
+
+									<a href="javascript:;" class="collapse"></a>
+
+									<a href="javascript:;" class="remove"></a>
+
+								</div>
+
+							</div>
+
+							<div class="portlet-body form">
+
+								<!-- BEGIN FORM-->
+
+								<form action="__SELF__" class="form-horizontal" id="form1" method="post">
+								 <input type="hidden" name="id" value="{$data.id}" />
+									<div class="control-group">
+										<label class="control-label">用户名</label>
+										<div class="controls">
+											<input type="text" class="span3 m-wrap" name="username" value="{$data.username}" required>
+										</div>
+
+									</div>
+
+									<div class="control-group">
+										<label class="control-label">姓名</label>
+										<div class="controls">
+											<input type="text" class="span3 m-wrap" name="name" value="{$address.name}" required>
+										</div>
+
+									</div>
+
+									<div class="control-group">
+										<label class="control-label">手机号</label>
+										<div class="controls">
+											<input type="text" class="span3 m-wrap" name="phone"  value="{$address.phone}" required>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label">性别</label>
+										<div class="controls">
+												<select name="sex" id="sex">
+													<option value="1">男</option>
+												<if condition="$address.sex eq 0">
+													<option selected = "selected"  value="2">女</option>
+												<else/>
+												    <option value="0">女</option>
+												</if>
+												</select>
+										</div>
+									</div>
+
+									<div class="control-group">
+							              <div class="control-group">
+							                  <label class="control-label"> 会员头像 </label>
+							                  <div class="controls">
+							                      <div class="fileupload fileupload-new" data-provides="fileupload">
+							                          <div class="fileupload-new thumbnail" style="width: 200px; height: 200px;">
+							                              <img src="{$data.img}" alt=""  />
+							                          </div>
+							                      </div>
+							                  </div>
+							              </div>
+							          </div>
+
+									<div class="control-group">
+										<label class="control-label">地址</label>
+										<div class="controls">
+											<input type="text" class="span3 m-wrap" name="address"  value="{$address.address}" required>
+										</div>
+									</div>
+
+<!-- 									<div class="control-group">
+										<label class="control-label">余额</label>
+										<div class="controls">
+											<input type="text" class="span3 m-wrap" name="balance"  value="{$data.balance}" required>
+										</div>
+									</div> -->
+
+									<div class="control-group">
+										<label class="control-label" >积分</label>
+										<div class="controls">
+											<input type="text" class="span3 m-wrap" name="cent"  value="{$data.cent}" required>
+										</div>
+									</div>
+
+
+								<!-- 	<div class="control-group">
+
+										<label class="control-label">Input with Popover</label>
+
+										<div class="controls">
+
+											<input type="text" class="span3 m-wrap popovers" data-trigger="hover" data-content="yyx" data-original-title="Popover header">
+
+										</div>
+
+									</div>
+ -->
+
+
+								<!-- 	<div class="control-group">
+
+										<label class="control-label">Textarea</label>
+
+										<div class="controls">
+
+											<textarea class="span6 m-wrap" rows="3"></textarea>
+
+										</div>
+
+									</div> -->
+
+									<div class="form-actions">
+
+										<button class="btn blue">保存</button>
+
+										<div class="btn" onclick="fanhui()">返回</div>
+
+									</div>
+
+								</form>
+
+								<!-- END FORM-->
+
+							</div>
+
+						</div>
+
+						<!-- END SAMPLE FORM PORTLET-->
+
+					</div>
+
+				</div>
+
+
+
+
+
+			</div>
+		</div>
+
+
+
+<script>
+
+jQuery(document).ready(function() {
+	var sex="{$data.sex}";
+    var group_id="{$data.group_id}";
+
+    $("#group_id").children("[value="+group_id+"]").attr("selected","selected");
+    $("#sex").children("[value="+sex+"]").attr("selected","selected");
+
+	$('#form1').validate({
+		rules:{
+			phone:{range:[13000000000,19000000000]},
+			cent:{min:0},
+		},
+		messages:{
+			phone:"请输入正确的手机号",
+			username:"请输入用户名",
+			name:"请输入姓名",
+			cent:"请输入正确的积分",
+			address:"请输入正确的地址",
+		},
+		errorPlacement: function(error, element) {
+				element.after(error);
+
+		},
+		errorClass:"yyx_error",
+		errorElement:"span",
+
+		submitHandler: function (form) {
+					var data=$(form).serialize();
+					yyxajax("__SELF__",data,function(ret){
+						// alert(JSON.stringify(ret))
+						if(ret==2){
+							window.location.href="{:U('Admin/User/User_list')}"
+						}else{
+							yyxalert(ret)
+						}
+					})
+			}
+	});
+});
+
+function fanhui(){
+	history.go(-1);
+}
+</script>
+<include file="Base/foot" />
+
+

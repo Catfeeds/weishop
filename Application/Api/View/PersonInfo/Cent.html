@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>积分详情</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/common.css">
+    <style type="text/css">
+    .top{height: 40px;background-color: #FD4C5D;width: 100%;position: relative;}
+    .top div{line-height: 40px;color: #FFFFFF;}
+    .xuxian{height: 10px;width: 100%;background-color: #F8F8F8;}
+    .order-id{float: left;margin-left: 14px;}
+    .order-status{float: right;margin-right: 14px;}
+    .order-status span{color: #FFFFFF;background-color:#FD4C5D;border-radius: 3px;}
+    .order-top{height: 26px;}
+    .order-id,.order-status{line-height: 26px;}
+    .order-down{border-top: 1px dashed #e0e0e0;height: 50px;}
+    .order-down-left{float: left;margin-left: 14px;margin-top: 8px;}
+    .order-down-right{float: right;line-height: 48px;margin-right: 14px;}
+    .order-down-left span{margin-left: 4px;}
+    .fa1{font-size: 16px;}
+    .left-time{color: #8e8a8a;}
+    .order-down-right span{width: 2.5em;display: inline-block;text-align: right;}
+    .hyx-ord :first-child{border:0;}
+    .jifenyue{text-align: center;height: 50px;border-bottom: 1px solid #e0e0e0;line-height: 51px;font-size: 16px;font-weight: 700;}
+    </style>
+</head>
+<body>
+<div>
+<!--     <div class="top center">
+        <div>积分详情</div>
+    </div> -->
+    <div class="jifenyue">剩余积分：{$total}</div>
+  <div class="hyx-ord">
+   <foreach name="cent" item="vo" >
+        <div class="order-down">
+            <div class="order-down-left">
+                <div>{$vo.title}</div>
+                <div class="left-time">{$vo['add_time']|date='Y-m-d',###}<span>{$vo['add_time']|date='H:i:s',###}</span></div>
+            </div>
+            <div class="order-down-right">
+               <span>{$vo['cent']}</span>
+            </div>
+        </div>
+   </foreach>
+  </div>
+    <div class="xuxian"></div>
+</div>
+</body>
+</html>

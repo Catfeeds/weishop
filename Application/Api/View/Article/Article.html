@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+<title>文章</title>
+<link rel="stylesheet" href="__PUBLIC__/lunbo/swiper.min.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+.row {display: -webkit-box;display: -webkit-flex;display: flex;}
+.col {position: relative; -webkit-box-flex:1;-webkit-flex:1; flex:1;}
+.mytitle{text-align: center;background: #f2f2f2;line-height: 45px}
+.active{color: #21b100}
+.list{height:60px;margin: 0px 0px 0px 10px;border-bottom: 1px solid #e0e0e0;padding: 12px 0px}
+.listimg{width: 80px;height: 60px;margin: 0px 10px 0px 0px}
+.listimg img{width: 100%;height: 100%}
+.listtitle{color: #000;font-size: 18px;
+        word-break:break-all;
+        display:-webkit-box;
+        -webkit-line-clamp:1;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+        }
+.listcontent{color: #999;font-size: 14px;margin-top: 5px;line-height: 20px;
+        word-break:break-all;
+        display:-webkit-box;
+        -webkit-line-clamp:2;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+}
+
+</style>
+</head>
+<body>
+
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+      <foreach name="ad" item="vo" >
+        <div class="swiper-slide">
+            <div class="swiper-content">
+                <img src="__PUBLIC__/{$vo.img}" onclick="Article('{$vo.content}')">
+                <div class="swiper-title"><span>{$vo.title}</span></div>
+            </div>
+        </div>
+      </foreach>
+    </div>
+</div>
+<div class="row">
+    <volist name="type" id="vo" key="k">
+        <eq name="k" value="1">
+            <div class="col mytitle active" data-type="{$vo.id}">{$vo.type}</div>
+        </eq>
+         <neq name="k" value="1">
+            <div class="col mytitle" data-type="{$vo.id}">{$vo.type}</div>
+        </neq>
+    </volist>
+   <!--  <div class="col mytitle active">我的</div>
+    <div class="col mytitle">我的</div>
+    <div class="col mytitle">我的</div>
+    <div class="col mytitle">我的sss</div> -->
+</div>
+
+<div id="yyx-content"></div>
+<script id="script-model" type="text/x-dot-template">
+{{ for (var i = 0, l = it.length; i < l; i++) { }}
+  <div class="list row" onclick="Article('{{=it[i].content}}')">
+      <div class="listimg">
+          <img src="__PUBLIC__/{{=it[i].img}}">
+      </div>
+      <div class="col">
+          <div class="listtitle">{{=it[i].title}}</div>
+          <div class="listcontent">{{=it[i].title2}}</div>
+      </div>
+  </div>
+{{ } }}
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/api/doT.min.js"></script>
+<script src="__PUBLIC__/lunbo/swiper.min.js"></script>
+<script type="text/javascript">
+  var mySwiper = new Swiper('.swiper-container',{
+    loop: true,
+    autoplay: 3000,
+  });
+
+$(document).ready(function(){
+    var data={$data|json_encode};
+    var type="{$type[0]['id']}";
+    var dibu=true;
+    var page=1;
+    $('#yyx-content').html(doT.template($('#script-model').text())(data));
+    $('.mytitle').click(function(){
+        $('.mytitle').removeClass("active");
+        $(this).addClass("active");
+        type=$(this).data("type");
+        $.ajax({
+              type:'get',
+              url:"__CONTROLLER__/Article?type="+type,
+              success:function(res){
+                  if(res){
+                    dibu=true;
+                    page=1;
+                    $('#yyx-content').html(doT.template($('#script-model').text())(res));
+                  }
+              }
+        })
+    })
+
+    $(window).scroll(function(){
+        if ($(document).scrollTop() + $(window).height() >= $(document).height()) {
+          if(dibu){
+             page++;
+             $.ajax({
+                type:'get',
+                url:"__CONTROLLER__/Article?id="+"{$Think.get.id}"+"&type="+type+"&page="+page,
+                success:function(res){
+                    if(res!=""){
+                      $('#yyx-content').append(doT.template($('#script-model').text())(res));
+                    }else{
+                        dibu=false;
+                    }
+                }
+              })
+         }
+        }
+    });
+});
+function Article(url){
+       self.location=url;
+}
+
+
+
+</script>
+</body>
+</html>

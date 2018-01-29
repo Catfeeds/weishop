@@ -1,0 +1,250 @@
+<include file="Base/header" />
+<include file="Base/menu" />
+<style type="text/css">
+    .dataTables_filter label{float: right;}
+    .pagination{margin: 0px;float: right;}
+    span.yyx_error{margin-top: 6px;padding-left: 5px;display:inline-block;color: red}
+    #logoimg{width: 100%;height: 100%}
+</style>
+
+        <!-- END SIDEBAR -->
+
+        <!-- BEGIN PAGE -->
+
+        <div class="page-content">
+
+            <!-- BEGIN PAGE CONTAINER-->
+
+            <div class="container-fluid">
+
+                <!-- BEGIN PAGE HEADER-->
+
+                <div class="row-fluid">
+
+                    <div class="span12">
+
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+                        <h3 class="page-title">
+
+
+                        </h3>
+
+                        <ul class="breadcrumb">
+
+                            <li>
+                                <i class="icon-home"></i>
+                                <a >其他</a>
+                                <i class="icon-angle-right"></i>
+                            </li>
+                            <li>
+                                <a href="#">配置</a>
+                                <!-- <i class="icon-angle-right"></i> -->
+                            </li>
+                            <!-- <li><a href="#">Blank Page</a></li> -->
+                        </ul>
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+                    </div>
+                </div>
+
+
+                <!-- yyx 内容 -->
+                <div class="row-fluid">
+
+                    <div class="span12">
+
+                        <!-- BEGIN SAMPLE FORM PORTLET-->
+
+                        <div class="portlet box blue">
+
+                            <div class="portlet-title">
+
+                                <div class="caption"><i class="icon-reorder"></i>配置</div>
+
+                                <div class="tools">
+
+                                    <a href="javascript:;" class="collapse"></a>
+
+                                    <a href="javascript:;" class="remove"></a>
+
+                                </div>
+
+                            </div>
+
+                            <div class="portlet-body form">
+
+                                <!-- BEGIN FORM-->
+
+                                <form action="__SELF__" class="form-horizontal" id="form1" method="post">
+                                    <input type="hidden" name="id" value="1">
+                                    <div class="control-group">
+
+                                        <label class="control-label">电话</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span3 m-wrap" name="mobile" value="{$config.mobile}" >
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">email</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span3 m-wrap" name="email" value="{$config.email}">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="control-group">
+
+                                        <label class="control-label">每消费一元返还积分</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span3 m-wrap" name="point" value="{$config.point}">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+                                          <div class="control-group">
+                                              <label class="control-label">简介图片</label>
+                                              <div class="controls">
+                                                  <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                      <div class="fileupload-new thumbnail" style="width: 300px; height:170px;">
+                                                          <img id="logoimg" class="hyx-img" src="__PUBLIC__/{$config.img}" alt=""  />
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <label for="imgfile" class="btn blue hyx-check-img" style="margin-left:180px">选择图片</label>
+                                          <input id="imgfile" type="file" name="img"  onchange="javascript:setImagePreview(this,'logoimg',300,170);" style="display: none;" />
+                                     </div>
+
+
+                                    <div class="form-actions">
+                                        <button class="btn blue">保存</button>
+                                    </div>
+
+                                </form>
+
+                                <!-- END FORM-->
+
+                            </div>
+
+                        </div>
+
+                        <!-- END SAMPLE FORM PORTLET-->
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+<script type="text/javascript" src="__PUBLIC__/media//js/select2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/media//js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="__PUBLIC__/media//js/DT_bootstrap.js"></script>
+
+<script src="__PUBLIC__/media//js/table-managed.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+
+jQuery(document).ready(function() {
+   // mobile:{range:[13000000000,19999999999],required:true}
+    $('#form1').validate({
+        rules:{point:{range:[1,10000],required:true},
+               email:{email:true,required:true},
+               mobile:{required:true}
+              },
+        messages:{point:"请输入1-10000的数字",
+                  email:"请输入正确的email",
+                  mobile:"请输入正确的手机号码"
+              },
+        submitHandler: function (form) {
+            var img = new FormData($(form)[0]);
+                      $.ajax({
+                          type:'POST',
+                          url: "__SELF__",
+                          data: img,
+                          contentType: false,
+                          processData: false,
+                          success:  function(msg){
+                            if (msg==1) {
+                               yyxalert("保存成功")
+                            }else{
+                                yyxalert('网络繁忙！')
+                            }
+                      }
+                      });
+                      return false;
+
+        },
+        errorPlacement: function(error, element) {
+                element.after(error);
+
+        },
+        errorClass:"yyx_error",
+        errorElement:"span"
+    });
+});
+window.focus();
+//下面用于图片上传预览功能
+function setImagePreview(obj,id,width,height) {
+var imgObjPreview=document.getElementById(id);
+var regu=/^.*[^a][^b][^c]\.(?:png|jpg)$/;
+var re=new RegExp(regu);
+if (!re.test(obj.value)) {
+  yyxalert('请选着jpg或png格式图片！');
+  return;
+}
+if(obj.files &&obj.files[0])
+{
+//火狐下，直接设img属性
+imgObjPreview.style.display = 'block';
+imgObjPreview.style.width = width+'px';
+imgObjPreview.style.height = height+'px';
+//imgObjPreview.src = obj.files[0].getAsDataURL();
+//火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+imgObjPreview.src = window.URL.createObjectURL(obj.files[0]);
+}
+else
+{
+//IE下，使用滤镜
+obj.select();
+var imgSrc = document.selection.createRange().text;
+var localImagId = document.getElementById("localImag");
+//必须设置初始大小
+localImagId.style.width = "200px";
+localImagId.style.height = "200px";
+//图片异常的捕捉，防止用户修改后缀来伪造图片
+try{
+localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+}
+catch(e)
+{
+alert("您上传的图片格式不正确，请重新选择!");
+return false;
+}
+imgObjPreview.style.display = 'none';
+document.selection.empty();
+}
+return true;
+}
+
+</script>
+<include file="Base/foot" />
+
+

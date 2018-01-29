@@ -1,0 +1,27 @@
+/*当前页面*/
+     .top{height: 170px;background-color: #78aab5;width: 100%;position: relative;}
+     .topimg{height:80px;width: 80px;}
+     .topimg-padding{padding-top: 14px;}
+     .final-top-img{background-color:#FFFFFF;border-radius: 50%;height: 80px;width: 80px;}
+     .img-in-div{border-radius: 50%;height: 94%;width: 94%;}
+     .img-in-div img{border-radius: 50%;height: 100%;width: 100%;margin-top: 3px;}
+     .user-name{color: #FFFFFF;margin-top: 6px;}
+     .top-s-down{bottom: 4px;position: absolute;width: 100%;}
+     /*两列*/
+     .qy_col2 li{width: 50%; float: left; position: relative;}
+     .qy_col2 li:first-child:after{display: block; content: "";
+     width: 1px; height: 100%; position: absolute; right: 0; background: #dadada; top: 0;}
+     .ul-color span{color: #FFFFFF;}
+     .balance{margin-top: 4px;margin-bottom: 2px;}
+     .balance span{margin-left: 4px;}
+     .xuxian{height: 10px;width: 100%;background-color: #F8F8F8;}
+     i{color: #8e8a8a;}
+     .col-muen{border-top: 1px solid #E0E0E0;line-height: 45px;}
+     .col-muen:first-child{border:0;}
+     .col-muen-first-i{margin-left: 14px;}
+     .col-muen span{margin-left:8px;}
+     .right-i{float: right;line-height: 45px;margin-right: 14px;color: #e4e4e4;font-size: 12px;}
+     .down-phone{height:45px;line-height: 45px;}
+     .down-phone span{margin-left: 10px;color:#78aab5;}
+     .down-phone i{color: #78aab5;}
+     .col-muen div{display: inline-block;width:50px;}

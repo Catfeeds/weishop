@@ -1,0 +1,106 @@
+@charset "utf-8";
+
+    /*公共元素*/
+
+    *{padding: 0;margin: 0;}
+
+    html{min-height: 100%; height: 100%;}
+
+    body{ font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+
+    margin:0 auto; padding:0; font-size:14px; background:#fff; overflow: hidden; height: 100%; position: relative;
+
+     color: #1b1b1f;overflow: scroll;}
+
+    .center{margin:0 auto;text-align: center;}
+
+    ul,li{margin:0; padding:0; list-style:none;}
+
+    a{text-decoration:none;color: #1b1b1f;}
+
+    a:hover{ font-size: 12px; color: #000000; text-decoration: none; }
+
+
+
+    /*
+
+    *超出部分用省略代替
+
+    */
+
+    .text-overflow {
+
+                    display:block;/*内联对象需加*/
+
+                    width:18em;
+
+                    word-break:keep-all;/* 不换行 */
+
+                    white-space:nowrap;/* 不换行 */
+
+                    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+
+                    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+
+    }
+
+
+
+
+
+    /*
+
+    *盒子布局
+
+     */
+
+
+
+     .box{   display:-moz-box;
+
+              display:-webkit-box;
+
+              display:box;}
+
+     .hbox{ -moz-box-flex:1;
+
+            -webkit-box-flex:1;
+
+             box-flex:1;position: relative;}
+
+     .hbox2{ -moz-box-flex:2;
+
+             -webkit-box-flex:2;
+
+             box-flex:2;position: relative;}
+
+     .hbox3{ -moz-box-flex:3;
+
+             -webkit-box-flex:3;
+
+             box-flex:3;position: relative;}
+
+     .hbox5{ -moz-box-flex:5;
+
+             -webkit-box-flex:5;
+
+             box-flex:5;position: relative;}
+
+
+
+    /*
+
+    *盒子布局
+
+     */
+
+     .cover{position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1999; background: rgba(0, 0, 0, 0.5); display: none;}
+
+     .cover .shareimg{position: absolute; top: 0; right: 0; width: 200px; -webkit-animation:fadeInRight .5s;}
+
+     .cover .cover_bg{position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000;}
+
+     #pop_alert{background: rgba(0, 0, 0, 0.2);}
+
+     .popmsg{background: rgba(0,0,0,.8); color: #fff; padding: 10px; position: absolute; top: 50%; left:50%; -webkit-transform: translate(-50%,-50%); -webkit-transition: all 0.2s ease-in-out; -webkit-animation: fadeIn .5s ease-In-Out; border-radius: 10px;}
+

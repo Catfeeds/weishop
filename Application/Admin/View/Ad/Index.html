@@ -1,0 +1,199 @@
+<include file="Base/header" />
+<include file="Base/menu" />
+<style type="text/css">
+	.dataTables_filter label{float: right;}
+	.pagination{margin: 0px;float: right;}
+	#soid{margin-bottom: 0px;line-height: 35px}
+	#form{margin: 0px}
+	.hyx-img{height:40px;width: 200px;}
+	.hyx-img img{height: 100%;width: 100%;}
+	.hyxid{width:80px;}
+	.hyx-opration{width:120px;}
+	a,a:link,a:visited,a:hover,a:active{
+	text-decoration:none;
+	}
+</style>
+<!-- END SIDEBAR -->
+<!-- BEGIN PAGE -->
+<div class="page-content">
+	<!-- BEGIN PAGE CONTAINER-->
+	<div class="container-fluid">
+	<!-- BEGIN PAGE HEADER-->
+	<div class="row-fluid">
+
+	<div class="span12">
+
+	<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+	<h3 class="page-title">
+
+		<!-- 主页 <small>这里是xx平台管理后台</small> -->
+
+	</h3>
+
+	<ul class="breadcrumb">
+
+		<li>
+			<i class="icon-home"></i>
+			<a >广告管理</a>
+			<i class="icon-angle-right"></i>
+		</li>
+		<li>
+			<a >广告列表</a>
+			<!-- <i class="icon-angle-right"></i> -->
+		</li>
+		<!-- <li><a href="#">Blank Page</a></li> -->
+	</ul>
+	<!-- END PAGE TITLE & BREADCRUMB-->
+	</div>
+	</div>
+	<!-- yyx 内容 -->
+			<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+						<div class="portlet box blue">
+
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-globe"></i>广告列表</div>
+
+								<div class="tools">
+
+									<a href="javascript:;" class="collapse"></a>
+
+									<a href="#portlet-config" data-toggle="modal" class="config"></a>
+
+									<a href="javascript:;" class="reload"></a>
+
+									<a href="javascript:;" class="remove"></a>
+
+								</div>
+
+							</div>
+
+							<div class="portlet-body">
+
+								<div class="clearfix">
+									<form method="post" action="__ACTION__" id="form">
+									<div class="btn-group">
+
+										<a id="sample_editable_1_new" class="btn green" onclick="go2info()">
+
+									新建广告<i class="icon-plus"></i>
+
+										</a>
+
+									</div>
+<!-- 									<div class=" pull-right">
+											<label id="soid">搜索: <input type="text" aria-controls="sample_1" class="m-wrap medium" name="so" value="{$so}"></label>
+									</div> -->
+									</form>
+								</div>
+								<table class="table table-striped table-bordered table-hover" id="sample_1">
+									<thead>
+										<tr>
+											<th>id</th>
+											<th class="hidden-480">图片</th>
+											<th class="hidden-480">链接</th>
+											<th class="hidden-480">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+									<foreach name="data" item="vo">
+										<tr class="odd gradeX" id="list{$vo.id}">
+											<td class="hidden-480 hyxid">{$vo.id}</td>
+											<td class="hyx-img"><img src="__PUBLIC__/{$vo.img}"></td>
+											<td> {$vo.url}</td>
+											<td class="hyx-opration">
+											    <a href="__CONTROLLER__/Info?id={$vo.id}">修改</a>
+												<a href="#" onclick="del({$vo.id})">删除</a>
+												<if condition="$vo.status eq 0">
+													<a href="#" onclick="she(this,{$vo.id},{$vo.status})">下架</a>
+												<else/>
+												    <a href="#" onclick="she(this,{$vo.id},{$vo.status})">上架</a>
+												</if>
+											</td>
+										</tr>
+									</foreach>
+
+									</tbody>
+								</table>
+								<!-- 分页 -->
+
+								<div class="mypage">
+								<div class="f-right"> 共{$count}条数据记录。</div>{$page}
+								</div>
+							</div>
+
+						</div>
+
+						<!-- END EXAMPLE TABLE PORTLET-->
+
+					</div>
+
+				</div>
+
+
+
+
+
+
+	</div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/media/js/select2.min.js"></script>
+<script>
+
+jQuery(document).ready(function() {
+	$('#pageBar a').click(function(){
+	　　var tmpHref = $(this).attr('href');
+	　　tmpHref = tmpHref.replace(/\/selCon\//,"");
+	　　$("#form").attr("action", tmpHref);
+	　　$("#form").submit();
+	　　return false;
+	});
+
+});
+
+function del(id){
+	yyxcomfirm(function(){
+		yyxajax("__CONTROLLER__/del",{"id":id},function(ret){
+						if(ret==1){
+								self.location="__CONTROLLER__/Index";
+						}else{
+							yyxalert('网络繁忙！');
+						}
+
+					},"get")
+	})
+}
+
+function go2info() {
+	window.location.href="{:U('Admin/Ad/Info')}"
+}
+
+function she(obj,id,status) {
+	(status==0)? status=1 : status=0;
+	yyxajax("__CONTROLLER__/show",{"id":id,"status":status},function(ret){
+						if(ret==1){
+								yyxalert('网络繁忙！');
+								return false;
+						}
+
+						if (ret.status==0) {
+							$(obj).html('下架');
+						}else if(ret.status==1){
+							$(obj).html('上架');
+						}
+						$(obj).attr('onclick',"she(this,"+ret.id+","+ret.status+")");
+
+
+					})
+}
+
+
+</script>
+<include file="Base/foot" />

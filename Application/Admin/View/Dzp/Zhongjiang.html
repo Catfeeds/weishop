@@ -1,0 +1,321 @@
+<include file="Base/header" />
+
+<include file="Base/menu" />
+
+<style type="text/css">
+
+    .dataTables_filter label{float: right;}
+
+    .pagination{margin: 0px;float: right;}
+
+    #soid{margin-bottom: 0px;line-height: 35px}
+
+    #form{margin: 0px}
+
+</style>
+
+<!-- END SIDEBAR -->
+
+<!-- BEGIN PAGE -->
+
+<div class="page-content">
+
+    <!-- BEGIN PAGE CONTAINER-->
+
+    <div class="container-fluid">
+
+    <!-- BEGIN PAGE HEADER-->
+
+    <div class="row-fluid">
+
+
+
+    <div class="span12">
+
+
+
+    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+
+
+    <h3 class="page-title">
+
+
+
+        <!-- 主页 <small>这里是xx平台管理后台</small> -->
+
+
+
+    </h3>
+
+
+
+    <ul class="breadcrumb">
+
+
+
+        <li>
+
+            <i class="icon-home"></i>
+
+            <a >大转盘</a>
+
+            <i class="icon-angle-right"></i>
+
+        </li>
+
+        <li>
+
+            <a >中奖列表</a>
+
+            <!-- <i class="icon-angle-right"></i> -->
+
+        </li>
+
+        <!-- <li><a href="#">Blank Page</a></li> -->
+
+    </ul>
+
+    <!-- END PAGE TITLE & BREADCRUMB-->
+
+    </div>
+
+    </div>
+
+    <!-- yyx 内容 -->
+
+            <div class="row-fluid">
+
+
+
+                    <div class="span12">
+
+
+
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+
+
+                        <div class="portlet box blue">
+
+
+
+                            <div class="portlet-title">
+
+
+
+                                <div class="caption"><i class="icon-globe"></i>中奖列表</div>
+
+
+
+                                <div class="tools">
+
+
+
+                                    <a href="javascript:;" class="collapse"></a>
+
+
+
+                                    <a href="#portlet-config" data-toggle="modal" class="config"></a>
+
+
+
+                                    <a href="javascript:;" class="reload"></a>
+
+
+
+                                    <a href="javascript:;" class="remove"></a>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                            <div class="portlet-body">
+
+
+
+                                <div class="clearfix">
+
+                                    <form method="post" action="__ACTION__" id="form">
+                                    <div class=" pull-right">
+
+                                            <label id="soid">搜索: <input type="text" aria-controls="sample_1" class="m-wrap medium" name="so" value="{$so}"></label>
+
+                                    </div>
+
+                                    </form>
+
+                                </div>
+
+                                <table class="table table-striped table-bordered table-hover" id="sample_1">
+
+                                    <thead>
+
+                                        <tr>
+
+
+
+                                            <th>id</th>
+
+                                            <th class="hidden-480">用户名</th>
+
+                                            <th class="hidden-480">手机</th>
+
+                                            <th class="hidden-480">地址</th>
+
+                                            <th class="hidden-480">中奖物品</th>
+
+                                            <th class="hidden-480">时间</th>
+
+                                            <th class="hidden-480">操作</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                    <foreach name="data" item="vo">
+
+                                        <tr class="odd gradeX" id="list{$vo.id}">
+
+                                            <td> {$vo.id}</td>
+
+                                            <td class="hidden-480">{$vo.username}</td>
+
+                           <!--              <if condition="$vo.phone eq null">
+
+                                            <td >{$vo.address.phone}</td>
+
+                                        <else/>
+
+                                            <td>{$vo.phone}</td>
+
+                                        </if> -->
+
+                                            <td >{$vo.phone}</td>
+
+                                            <td >{$vo.address}</td>
+
+                                            <td >{$vo.title}</td>
+                                            <td >{$vo.addtime|date="Y-m-d h:i:s",###}</td>
+
+
+                                            <if condition="$vo.status eq 0">
+                                            <td ><a onclick="fahua({$vo.id})">发货</a></td>
+                                            <else/>
+                                            <td >完成</td>
+                                            </if>
+
+
+                                        </tr>
+
+                                    </foreach>
+
+
+
+                                    </tbody>
+
+                                </table>
+
+                                <!-- 分页 -->
+
+
+
+                                <div class="mypage">
+
+                                <div class="f-right"> 共{$count}条数据记录。</div>{$page}
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                        <!-- END EXAMPLE TABLE PORTLET-->
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript" src="__PUBLIC__/media//js/select2.min.js"></script>
+
+<script>
+
+
+
+jQuery(document).ready(function() {
+
+    $('#soid').children().val("{$so}");
+    $('#pageBar a').click(function(){
+
+    　　var tmpHref = $(this).attr('href');
+
+    　　tmpHref = tmpHref.replace(/\/selCon\//,"");
+
+    　　$("#form").attr("action", tmpHref);
+
+    　　$("#form").submit();
+
+    　　return false;
+
+    });
+
+
+
+});
+
+function fahua(id){
+    yyxcomfirm(function(){
+        yyxajax("__CONTROLLER__/fahua",{"id":id},function(ret){
+                        if(ret==1){
+                            location.reload();
+                        }
+                        else yyxalert('网络繁忙！');
+                    },"get")
+    },"确定发货？","发货提示")
+}
+
+
+
+
+</script>
+
+<include file="Base/foot" />
+
+
+
+
+

@@ -1,0 +1,129 @@
+<include file="Base/header" />
+<include file="Base/menu" />
+<style type="text/css">
+    .dataTables_filter label{float: right;}
+    .pagination{margin: 0px;float: right;}
+    span.yyx_error{margin-top: 6px;padding-left: 5px;display:inline-block;color: red}
+    #form-actions {
+        margin-bottom: -30px !important;
+    }
+</style>
+        <!-- END SIDEBAR -->
+        <!-- BEGIN PAGE -->
+        <div class="page-content">
+            <!-- BEGIN PAGE CONTAINER-->
+            <div class="container-fluid">
+                <!-- BEGIN PAGE HEADER-->
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                        <h3 class="page-title">
+                            <!-- 主页 <small>这里是xx平台管理后台</small> -->
+                        </h3>
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="icon-home"></i>
+                                <a >文章管理</a>
+                                <i class="icon-angle-right"></i>
+                            </li>
+                            <li>
+                                <a href="__CONTROLLER__/Article_type">文章类别</a>
+                                <i class="icon-angle-right"></i>
+                            </li>
+                            <li><a >类别信息</a></li>
+                        </ul>
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+                    </div>
+                </div>
+                <!-- yyx 内容 -->
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- BEGIN SAMPLE FORM PORTLET-->
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption"><i class="icon-reorder"></i>{$data.type}</div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"></a>
+                                    <a href="javascript:;" class="remove"></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <!-- BEGIN FORM-->
+                                <form action="__SELF__" class="form-horizontal" id="form1" method="post">
+                                 <input id="dataid" type="hidden" name="id" value="{$data.id}" />
+                                 <div class="control-group">
+                                    <div class="control-group">
+                                        <label class="control-label">类别名</label>
+                                        <div class="controls">
+                                            <input id="type" type="text" class="span3 m-wrap" name="type" value="{$data.type}" required>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">排序号</label>
+                                        <div class="controls">
+                                            <input id="orderby" type="text" class="span3 m-wrap" name="orderby" value="{$data.orderby}" required>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">模块</label>
+                                        <div class="controls">
+                                          <select id="class_id" name="class_id" class="small m-wrap" tabindex="1">
+                                             <foreach name="mokuai" item="vo">
+                                               <if condition="$data['class_id'] eq $vo['id']">
+                                                <option value="{$vo.id}" selected>{$vo.myclass}</option>
+                                               <else/>
+                                                <option value="{$vo.id}">{$vo.myclass}</option>
+                                               </if>
+                                             </foreach>
+                                           </select>
+                                        </div>
+                                    </div>
+                                    <div id="form-actions" class="form-actions">
+                                        <button class="btn blue">保存</button>
+                                        <div class="btn" onclick="fanhui()">返回</div>
+                                    </div>
+                                </form>
+                                <!-- END FORM-->
+                            </div>
+                        </div>
+                        <!-- END SAMPLE FORM PORTLET-->
+                    </div>
+                </div>
+            </div>
+        </div>
+<script>
+jQuery(document).ready(function() {
+    var sex="{$data.sex}";
+    var id="{$data.id}";
+    $('#form1').validate({
+        rules:{
+            tel:{range:[13000000000,19000000000]},
+            cent:{min:0},
+            orderby:{min:0},
+        },
+        messages:{
+            type:"请输入类别名",
+            orderby:"请输入排序号"
+        },
+        errorPlacement: function(error, element) {
+                element.after(error);
+        },
+        errorClass:"yyx_error",
+        errorElement:"span",
+        submitHandler: function (form) {
+                    yyxajax("__CONTROLLER__/Article_typeinfo",{'id':$('#dataid').val(),'type':$('#type').val(),'orderby':$('#orderby').val(),'class_id':$('#class_id').val()},function(ret){
+                        if(ret==2){
+                            yyxalert("修改失败！");
+                        }else{
+                            alert('修改成功！');
+                            window.location.href="{:U('Admin/Article/Article_type')}";
+                        }
+                    })
+            }
+    });
+});
+function fanhui(){
+    history.go(-1);
+}
+</script>
+<include file="Base/foot" />

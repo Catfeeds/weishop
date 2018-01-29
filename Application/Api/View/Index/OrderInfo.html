@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/common.css">
+    <title>订单明细</title>
+    <style type="text/css">
+    .details-top{height: 40px;background-color: #78aab5;width: 100%;position: relative;}
+    .details-top div{line-height: 40px;color: #FFFFFF;}
+    .xuxian{height: 10px;width: 100%;background-color: #F8F8F8;}
+    .order-id{line-height: 38px;margin-left: 14px;height: 38px;}
+    .details-main{margin-left: 14px;margin-right: 14px;line-height: 41px;
+        border-bottom:1px solid #e0e0e0;
+    }
+    .details-one div{display: inline-block;}
+    .details-one-right{float: right;}
+    .fa1{font-size: 16px;}
+    .num{margin-right: 30px;color: #8e8a8a;}
+    .sum-final{float: right;line-height: 40px;margin-right: 14px;}
+    .sum-f{height: 40px;}
+    .one-price{width: 2em;text-align:right;}
+    .mybtn{text-align: center;font-size: 18px; height:45px;line-height: 45px;width: 300px;border-radius: 5px;color: #fff;background: #78aab5;margin: 5px auto }
+    .list div{display: inline-block;}
+    .xx{height: 10px;background: #F8F8F8  }
+    </style>
+</head>
+<body>
+<div>
+<!--     <div class="details-top center">
+        <div>订单明细</div>
+    </div> -->
+    <div>
+        <div class="xuxian"></div>
+     <!--    <div class="order-id">{$detail['l_id']}</div>
+ -->
+         <div onclick="dizhi()">
+        <div class="details-main">
+          <div class="list">
+              <div class="list-top">地址:</div>
+              <div id="myaddress">{$address['mycity']}{$address['address']}</div>
+
+          </div>
+        </div>
+        <div class="details-main">
+          <div class="list">
+              <div class="list-top">电话:</div>
+              <div id="myphone">{$address['phone']}</div>
+          </div>
+        </div>
+        </div>
+         <div class="xx"></div>
+          <div id="gift1"></div>
+      <script id="script-model1" type="text/x-dot-template">
+ {{ for(var i=0,l=it.Items.length; i<l; i++){ }}
+      <div class="details-main">
+            <div class="details-one">
+                <div>{{=cutstr(it.Items[i].Name,24)}}</div>
+                <div class="details-one-right">
+                    <div class="num">x<span>{{=it.Items[i].Count}}</span></div>
+                    <span class="fa1">￥</span>
+                    <div class="one-price">
+                        <span>{{=it.Items[i].Price}}</span>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+       {{ } }}
+         <div class="sum-f">
+            <div class="sum-final">
+                <span>总计：</span>
+                <span>
+                    <span class="fa1">￥</span>
+                    {{=it.Total}}
+                </span>
+            </div>
+        </div>
+
+</script>
+
+
+
+        <div class="xuxian"></div>
+        <div class="mybtn" onclick="jiesuan()">确认下单</div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/cookie.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/doT.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/hyxcommon.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/msgalert.js"></script>
+<script type="text/javascript">
+  var cart=new CartHelper();//实例化一个购物车助手
+$(document).ready(function(){
+    var json=cart.Read();
+    if(json.Count>0){
+       $('#gift1').html(doT.template($('#script-model1').text())(json));
+    }else{
+       self.location="__MODULE__/PersonInfo/Index";
+       // self.location="__MODULE__/PersonInfo/Order?status=0";
+    }
+
+});
+
+ var pay_json='';  //全局支付参数
+var pay_lock =1;
+   function jiesuan() {
+      if(pay_lock==0)return false;
+      pay_lock=0
+    // return false;
+    var address=$("#myaddress").text();
+    var phone=$("#myphone").text();
+    var myjson={"cart":cart.Read(),"address":address,"phone":phone}
+
+     $.ajax({
+        type:'POST',
+        url: "{:U('Api/Index/Order')}",
+        data:myjson,
+        success: function(ret){
+            if(ret.code==100){
+                 cart.Clear();
+                 window.location.href="__MODULE__/Index/Wxpay?id="+ret.data
+            }else{
+               pay_lock=1;
+               pop_alert(ret.erro,2000);
+            }
+        }
+    })
+  }
+  function dizhi(){
+     window.location.href="{:U('Api/PersonInfo/Address1')}"
+  }
+  function cutstr(str,len)
+{
+    var str_length = 0;
+    var str_len = 0;
+    var str_cut = '';
+    str_len = str.length;
+    for(var i = 0;i<str_len;i++)
+    {
+        a = str.charAt(i);
+        str_length++;
+        if(escape(a).length > 4)
+        {
+        //中文字符的长度经编码之后大于4
+            str_length++;
+        }
+        str_cut = str_cut.concat(a);
+        if(str_length>=len)
+        {
+            str_cut = str_cut.concat("...");
+            return str_cut;
+        }
+    }
+    //如果给定字符串小于指定长度，则返回源字符串；
+    if(str_length<len){
+        return  str;
+    }
+}
+</script>
+</html>

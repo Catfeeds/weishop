@@ -1,0 +1,208 @@
+<include file="Base/header" />
+<include file="Base/menu" />
+<style type="text/css">
+    .dataTables_filter label{float: right;}
+    .pagination{margin: 0px;float: right;}
+    span.yyx_error{margin-top: 6px;padding-left: 5px;display:inline-block;color: red}
+    .hyx-img{height: 100%;width: 100%;overflow: hidden;}
+    .hyx-check-img{margin-left: 160px;}
+    #content{width: 400px;height: 128px;}
+</style>
+
+        <!-- END SIDEBAR -->
+
+        <!-- BEGIN PAGE -->
+
+        <div class="page-content">
+
+            <!-- BEGIN PAGE CONTAINER-->
+
+            <div class="container-fluid">
+
+                <!-- BEGIN PAGE HEADER-->
+
+                <div class="row-fluid">
+
+                    <div class="span12">
+
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+                        <h3 class="page-title">
+
+                            <!-- 主页 <small>这里是xx平台管理后台</small> -->
+
+                        </h3>
+
+                        <ul class="breadcrumb">
+
+                            <li>
+                                <i class="icon-home"></i>
+                                <a >大转盘</a>
+                                <i class="icon-angle-right"></i>
+                            </li>
+                            <li><a >奖品修改</a></li>
+                        </ul>
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+                    </div>
+                </div>
+
+
+                <!-- yyx 内容 -->
+
+
+             <div class="row-fluid">
+
+
+
+                    <div class="span12">
+
+
+
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+
+
+                        <div class="portlet box blue">
+
+
+
+                            <div class="portlet-title">
+
+
+
+                                <div class="caption"><i class="icon-globe"></i>奖品修改</div>
+
+
+
+                                <div class="tools">
+
+
+
+                                    <a href="javascript:;" class="collapse"></a>
+
+
+
+                                    <a href="#portlet-config" data-toggle="modal" class="config"></a>
+
+
+
+                                    <a href="javascript:;" class="reload"></a>
+
+
+
+                                    <a href="javascript:;" class="remove"></a>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                            <div class="portlet-body">
+
+
+
+                                <div class="clearfix">
+                                <form action="__SELF__" enctype="multipart/form-data" class="form-horizontal" id="form1" method="post">
+                                 <input type="hidden" name="id" value="{$data.id}" />
+                                    <div class="control-group">
+                                        <label class="control-label">奖品名称</label>
+                                        <div class="controls">
+                                            <input id="prize" type="text" class="span3 m-wrap" name="prize" value="{$data.prize}" required>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">数量</label>
+                                        <div class="controls">
+                                            <input id="num" type="text" class="span3 m-wrap" name="num" value="{$data.num}" required>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="form-actions">
+
+                                        <button class="btn blue">保存</button>
+
+                                        <div class="btn" onclick="fanhui()">返回</div>
+
+                                    </div>
+
+                                </form>
+
+                                <!-- END FORM-->
+
+                            </div>
+
+                        </div>
+
+                        <!-- END SAMPLE FORM PORTLET-->
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+<script>
+jQuery(document).ready(function() {
+
+
+    $('#form1').validate({
+        rules:{
+            prize:{maxlength:10},
+            num:{number:true},
+            // num:{number:true},
+        //  cent:{min:0},
+        //  balance:{min:0},
+        },
+        messages:{
+            prize:{maxlength:"不得超过10个汉字",required:"奖品名称"},
+            num:{number:"请输入有效数字",required:"请输入奖品数量"},
+        },
+        errorPlacement: function(error, element) {
+                element.after(error);
+
+        },
+        errorClass:"yyx_error",
+        errorElement:"span",
+
+        submitHandler: function (form) {
+                 var img =$(form).serialize();
+                      $.ajax({
+                          type:'POST',
+                          url: "{:U('Admin/Dzp/Info')}",
+                          data: img,
+                          success:  function(msg){
+
+                            if (msg==1) {
+                                alert('修改成功！');
+                                window.location.href="{:U('Admin/Dzp/Index')}";
+                            }else{
+                                yyxalert('网络繁忙！')
+                            }
+                      }
+                      });
+                      return false;
+            }
+    });
+});
+function fanhui(){
+    history.go(-1);
+}
+</script>
+<include file="Base/foot" />

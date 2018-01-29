@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/common.css">
+    <title>订单明细</title>
+    <style type="text/css">
+    .details-top{height: 40px;background-color: #78aab5;width: 100%;position: relative;}
+    .details-top div{line-height: 40px;color: #FFFFFF;}
+    .xuxian{height: 10px;width: 100%;background-color: #F8F8F8;}
+    .order-id{line-height: 38px;margin: 0px 14px;height: 38px;border-bottom: 1px solid #e0e0e0}
+    .details-main{margin-left: 14px;margin-right: 14px;line-height: 40px;
+        border-bottom:1px solid #e0e0e0;
+    }
+    .details-one div{display: inline-block;}
+    .details-one-right{float: right;}
+    .fa1{font-size: 16px;}
+    .num{margin-right: 30px;color: #8e8a8a;}
+    .sum-final{float: right;line-height: 40px;margin-right: 14px;}
+    .sum-f{height: 40px;}
+    .one-price{width: 2em;text-align:right;}
+    .mybtn{text-align: center;font-size: 18px; height:45px;line-height: 45px;width: 300px;border-radius: 5px;color: #fff;background: #78aab5;margin: 5px auto }
+    .list div{display: inline-block;}
+    .xx{height: 10px;background: #F8F8F8  }
+        /*弹窗*/
+      .tc1,.tc,.tc0{
+      width: 100%;
+      height: 100%;
+      z-index: 9998;
+      position: fixed;
+      top: 0;
+      display: none;
+       }
+      .tc0{
+        z-index:0;
+        opacity: 0.5;
+        background-color: #000;
+      }
+      .nei{
+          z-index: 99999;
+          text-align: center;
+          margin: 0 auto;
+          background-color: #fff;
+          height: 80px;
+          width: 200px;
+          margin-top: 200px;
+          border-radius: 5px;
+      }
+      .nei-n{border-top: 1px solid #e0e0e0;padding-top: 10px;}
+      .nei-l{border-left: 1px solid #e0e0e0;}
+      .red{color: #78aab5;}
+      .tcx{height: 40px;line-height:40px;text-align: center;}
+    .text-overflow {
+                    display:block;/*内联对象需加*/
+                    width:12em;
+                    word-break:keep-all;/* 不换行 */
+                    white-space:nowrap;/* 不换行 */
+                    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+                    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+    }
+    </style>
+</head>
+<body>
+<div>
+<!--     <div class="details-top center">
+        <div>订单明细</div>
+    </div> -->
+    <div class="tc0"></div>
+<div class="tc1">
+    <div class="nei">
+        <div class="tcx">确认退款</div>
+        <div class="box">
+            <div id="tc_sure1" class="hbox nei-n red">确定</div>
+            <div id="tc_quxiao1" class="hbox nei-n nei-l">取消</div>
+        </div>
+    </div>
+</div>
+    <div>
+        <div class="xuxian"></div>
+        <div class="order-id">{$detail['l_id']}</div>
+
+          <foreach name="detail['detail']" item="vo" >
+           <div class="details-main">
+            <div class="details-one">
+                <div class="text-overflow">{$vo['name']}</div>
+                <div class="details-one-right">
+                    <div class="num">x<span>{$vo.num}</span></div>
+                    <span class="fa1">￥</span>
+                    <div class="one-price">
+                        <span>{$vo.price}</span>
+                    </div>
+                </div>
+            </div>
+          </div>
+          </foreach>
+
+        <div class="sum-f">
+            <div class="sum-final">
+                <span>总计：</span>
+                <span>
+                    <span class="fa1">￥</span>
+                    {$detail['total']}
+                </span>
+            </div>
+        </div>
+        <div class="xx"></div>
+        <div class="details-main">
+          <div class="list">
+              <div class="list-top">地址:</div>
+              <div> {$detail['o_address']}</div>
+          </div>
+        </div>
+        <div class="details-main">
+          <div class="list">
+              <div class="list-top">电话:</div>
+              <div> {$detail['o_tel']}</div>
+          </div>
+        </div>
+         <if condition="$detail['status'] eq 2 ">
+        <div class="xx"></div>
+        <div class="details-main">
+          <div class="list">
+              <div class="list-top">配送员:</div>
+              <div> {$qishi['name']}</div>
+          </div>
+        </div>
+        <div class="details-main">
+          <div class="list">
+              <div class="list-top">骑士电话:</div>
+              <div> {$qishi['tel']}</div>
+          </div>
+        </div>
+         </if>
+        <div class="xuxian"></div>
+        <if condition="$detail['status'] eq 0 ">
+            <div class="mybtn" onclick="jiesuan('{$detail.id}')">立即支付</div>
+            <elseif condition="$detail['status'] eq 2 "/>
+            <div class="mybtn" onclick="yyxok('{$detail.id}')">确认收货</div>
+            <elseif condition="$detail['status'] eq 1 "/>
+            <div class="mybtn" onclick="tuikuan('{$detail.id}')">退款</div>
+        </if>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/msgalert.js"></script>
+<script type="text/javascript">
+ var pay_json='';  //全局支付参数
+var pay_lock =1;
+   function jiesuan(order_id) {
+      if(pay_lock==0)return false;
+      pay_lock=0
+    // alert(JSON.stringify(cart.Read()));
+    // return false;
+     // var json=JSON.parse(JSON.stringify(cart.Read()));
+
+     $.ajax({
+        type:'get',
+        url:"__MODULE__/Index/Order_pay?order_id="+order_id,
+        success: function(ret){
+            if(ret.code==100){
+              pay_json=JSON.parse(ret.data);
+              callpay();
+            }else{
+               pay_lock=1;
+               pop_alert(ret.erro,2000);
+            }
+          // if(a.code==100){
+          //   $('.gouwuche0').hide();
+          //   $('.gouwuche').hide();
+          //   pop_alert('购买成功')
+          //   clearCart();
+          // }
+        }
+    })
+  }
+  //调用微信JS api 支付
+function jsApiCall()
+{
+  WeixinJSBridge.invoke(
+    'getBrandWCPayRequest',
+    pay_json,
+    function(res){
+      pay_lock=1;
+      if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+          pop_alert('购买成功',2000)
+          setTimeout(function() {
+               history.go(-1);
+          }, 2000);
+      }else{
+          pop_alert('支付失败！',2000)
+      }
+    }
+  );
+}
+function callpay()
+{
+  if (typeof WeixinJSBridge == "undefined"){
+      if( document.addEventListener ){
+          document.addEventListener('WeixinJSBridgeReady', jsApiCall(), false);
+      }else if (document.attachEvent){
+          document.attachEvent('WeixinJSBridgeReady', jsApiCall());
+          document.attachEvent('onWeixinJSBridgeReady', jsApiCall());
+      }
+  }else{
+      jsApiCall();
+  }
+}
+function yyxok(order_id){
+  $.ajax({
+        type:'get',
+        url:"__MODULE__/Index/souhuo?order_id="+order_id,
+        success: function(ret){
+               history.go(-1);
+               // self.location="__MODULE__/PersonInfo/Order";
+        }
+    })
+}
+
+    $('.tc1').bind("click",function(e){
+            var target  = $(e.target);
+            if(target.closest(".nei").length == 0){
+                /*.closest()沿 DOM 树向上遍历，直到找到已应用选择器的一个匹配为止，返回包含零个或一个元素的 jQuery 对象。*/
+                $('.tc0').hide();
+                $('.tc1').hide();
+            }
+            e.stopPropagation();
+    });
+     var bool1=true;
+    function tuikuan(id) {
+        $('.tc0').show();
+        $('.tc1').show();
+        $('#tc_sure1').one('click',function(){
+                if (bool1) {
+                    bool1=false;
+                }else return false;
+                $.ajax({
+                    type:'POST',
+                    url:"{:U('Api/PersonInfo/out')}",
+                    data:{'id':id},
+                    success:function(data){
+                        bool1=true;
+                        if (data==1) {
+                          pop_alert('申请成功');
+                          setTimeout(function() {
+                            history.go(-1)
+                            // self.location="__MODULE__/PersonInfo/Order";
+                          }, 2000);
+                        }else{
+                          pop_alert('网络异常');
+                        }
+                    }
+                  })
+                $('.tc0').hide();
+                $('.tc1').hide();
+        });
+
+        $('#tc_quxiao1').one('click',function(){
+            $('.tc0').hide();
+            $('.tc1').hide();
+        })
+    }
+</script>
+</html>

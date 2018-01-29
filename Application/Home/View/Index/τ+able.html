@@ -1,0 +1,177 @@
+<include file="Base/header" />
+<include file="Base/menu" /> 
+<style type="text/css">
+	.dataTables_filter label{float: right;}
+	.pagination{margin: 0px;float: right;}
+</style>	
+
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+
+		<div class="page-content">
+
+			<!-- BEGIN PAGE CONTAINER-->
+
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE HEADER-->
+
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+						<h3 class="page-title">
+
+							主页 <small>这里是xx平台管理后台</small>
+
+						</h3>
+
+						<ul class="breadcrumb">
+
+							<li>
+								<i class="icon-home"></i>
+								<a href="index.html">Home</a> 
+								<i class="icon-angle-right"></i>
+							</li>
+							<li>
+								<a href="#">Layouts</a>
+								<i class="icon-angle-right"></i>
+							</li>
+							<li><a href="#">Blank Page</a></li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+
+
+				<!-- yyx 内容 -->
+
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+						<div class="portlet box blue">
+
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-globe"></i>Managed Table</div>
+
+								<div class="tools">
+
+									<a href="javascript:;" class="collapse"></a>
+
+									<a href="#portlet-config" data-toggle="modal" class="config"></a>
+
+									<a href="javascript:;" class="reload"></a>
+
+									<a href="javascript:;" class="remove"></a>
+
+								</div>
+
+							</div>
+
+							<div class="portlet-body">
+
+								<div class="clearfix">
+
+									<div class="btn-group">
+
+										<button id="sample_editable_1_new" class="btn green">
+
+										Add New <i class="icon-plus"></i>
+
+										</button>
+
+									</div>
+
+									<div class="btn-group pull-right">
+
+										<button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="icon-angle-down"></i>
+
+										</button>
+
+										<ul class="dropdown-menu pull-right">
+
+											<li><a href="#">Print</a></li>
+
+											<li><a href="#">Save as PDF</a></li>
+
+											<li><a href="#">Export to Excel</a></li>
+
+										</ul>
+
+									</div>
+
+								</dv>
+
+
+
+				<table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+
+									<thead>
+
+										<tr>
+											<th>Username</th>
+											<th>Full Name</th>
+											<th>Points</th>
+											<th>Points</th>
+											<th>Notes</th>
+											<th>Edit</th>
+											<th>Delete</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="">
+											<td>alex</td>
+											<td>Alex Nilson</td>
+											<td>1234</td>
+											<td>1234</td>
+											<td class="center">power user</td>
+											<td><a class="edit" href="javascript:;">编辑</a></td>
+											<td><a class="delete" del="__URL__/del?id=1" href="javascript:;">删除</a></td>
+										</tr>
+									</tbody>
+
+								</table>
+								
+									
+
+
+							</div>
+
+						</div>
+
+						<!-- END EXAMPLE TABLE PORTLET-->
+
+					</div>
+
+				</div>
+
+
+
+
+			</div>
+		</div>
+
+<script type="text/javascript" src="__PUBLIC__/media//js/select2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/media//js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="__PUBLIC__/media//js/DT_bootstrap.js"></script>
+
+
+<script src="__PUBLIC__/media/js/table-editable.js"></script>
+<script>
+
+jQuery(document).ready(function() {       
+
+   TableEditable.init();
+});
+
+</script>
+<include file="Base/foot" /> 
+
+

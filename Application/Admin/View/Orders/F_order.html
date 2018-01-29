@@ -1,0 +1,431 @@
+<include file="Base/header" />
+
+<include file="Base/menu" />
+
+<style type="text/css">
+
+    .dataTables_filter label{float: right;}
+
+    .pagination{margin: 0px;float: right;}
+
+    #soid{margin-bottom: 0px;line-height: 35px}
+
+    #form{margin: 0px}
+
+    .hyxid{width:80px;}
+
+    .hyx-opration{width: 80px;}
+
+    a,a:link,a:visited,a:hover,a:active{
+
+    text-decoration:none;
+
+    }
+
+    .peisong{width: 250px;}
+
+</style>
+
+<!-- END SIDEBAR -->
+
+<!-- BEGIN PAGE -->
+
+<div class="page-content">
+
+    <!-- BEGIN PAGE CONTAINER-->
+
+    <div class="container-fluid">
+
+    <!-- BEGIN PAGE HEADER-->
+
+    <div class="row-fluid">
+
+
+
+    <div class="span12">
+
+
+
+    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+
+
+    <h3 class="page-title">
+
+
+
+        <!-- 主页 <small>这里是xx平台管理后台</small> -->
+
+
+
+    </h3>
+
+
+
+    <ul class="breadcrumb">
+
+
+
+        <li>
+
+            <i class="icon-home"></i>
+
+            <a >订单管理</a>
+
+            <i class="icon-angle-right"></i>
+
+        </li>
+
+        <li>
+
+            <a>分配订单</a>
+
+            <!-- <i class="icon-angle-right"></i> -->
+
+        </li>
+
+        <!-- <li><a href="#">Blank Page</a></li> -->
+
+    </ul>
+
+    <!-- END PAGE TITLE & BREADCRUMB-->
+
+    </div>
+
+    </div>
+
+    <!-- yyx 内容 -->
+
+            <div class="row-fluid">
+
+
+
+                    <div class="span12">
+
+
+
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+
+
+                        <div class="portlet box blue">
+
+
+
+                            <div class="portlet-title">
+
+
+
+                                <div class="caption"><i class="icon-globe"></i>订单列表</div>
+
+
+
+                                <div class="tools">
+
+
+
+                                    <a href="javascript:;" class="collapse"></a>
+
+
+
+                                    <a href="#portlet-config" data-toggle="modal" class="config"></a>
+
+
+
+                                    <a href="javascript:;" class="reload"></a>
+
+
+
+                                    <a href="javascript:;" class="remove"></a>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                            <div class="portlet-body">
+
+
+
+                                <div class="clearfix">
+
+                                    <form method="post" action="__ACTION__" id="form">
+
+                                        <div class=" pull-right">
+
+                                                <label id="soid">搜索: <input type="text" aria-controls="sample_1" class="m-wrap medium" name="so" value="{$so}"></label>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                                <table class="table table-striped table-bordered table-hover" id="sample_1">
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>id</th>
+
+                                            <th class="hidden-480">订单号</th>
+
+                                            <th class="hidden-480">用户名</th>
+
+                                            <th class="hidden-480">总价</th>
+
+                                            <th class="hidden-480">购买时间</th>
+                                            <th class="hidden-480">地址</th>
+
+                                            <th class="hidden-480">状态</th>
+
+                                            <th class="hidden-480">操作</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                    <foreach name="data" item="vo">
+
+                                        <tr class="odd gradeX" id="list{$vo.id}">
+
+                                            <td class="hidden-480 hyxid">{$vo.id}</td>
+
+                                            <td>{$vo.l_id}</td>
+
+                                            <td>{$vo.username}</td>
+
+                                            <td>{$vo.total}元</td>
+
+                                            <td>{$vo.add_time|date="Y-m-d H:s:i",###}</td>
+                                             <td>{$vo.o_address}</td>
+
+                                            <td>
+
+                                                <if condition="$vo.status eq 0">
+
+                                                <span class="label label-fail">未支付</span>
+
+                                                <elseif condition="$vo.status eq 1"/>
+
+                                                <span class="label label-warning">已支付</span>
+
+                                                <elseif condition="$vo.status eq 6"/>
+
+                                                <span class="label label-warning">货到付款</span>
+
+
+                                                <elseif condition="$vo.status eq 2"/>
+
+                                                <span class="label label-warning">配送中</span>
+
+                                                <elseif condition="$vo.status eq 3"/>
+
+                                                <span class="label label-success">完成</span>
+
+                                                </if>
+
+                                            </td>
+
+                                            <td class="peisong">
+                                              <a href="__CONTROLLER__/Info?id={$vo.id}">查看</a>
+                                              <a onclick="del({$vo.id})">取消订单</a>
+                                            <div>
+                                               <if condition="($vo.status eq 1) OR($vo.status eq 6)">
+
+                                                   <span>选择配送员</span>
+
+                                                   <select class="small m-wrap" data-val="{$vo.id}" tabindex="1" id="id_ps{$vo.id}">
+
+                                                     <foreach name="p" item="vo1">
+
+                                                        <option value="{$vo1.id}">{$vo1.name}</option>
+
+                                                     </foreach>
+
+                                                   </select>
+
+                                                   <span onclick="qdps('id_ps{$vo.id}')"><a href="#">确定</a></span>
+
+                                               </if>
+                                            </div>
+                                            </td>
+
+                                        </tr>
+
+                                    </foreach>
+
+
+
+                                    </tbody>
+
+                                </table>
+
+                                <!-- 分页 -->
+
+
+
+                                <div class="mypage">
+
+                                <div class="f-right"> 共{$count}条数据记录。</div>{$page}
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                        <!-- END EXAMPLE TABLE PORTLET-->
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript" src="__PUBLIC__/media/js/select2.min.js"></script>
+
+<script>
+
+
+
+jQuery(document).ready(function() {
+
+    $('#pageBar a').click(function(){
+
+    　　var tmpHref = $(this).attr('href');
+
+    　　tmpHref = tmpHref.replace(/\/selCon\//,"");
+
+    　　$("#form").attr("action", tmpHref);
+
+    　　$("#form").submit();
+
+    　　return false;
+
+    });
+
+
+
+});
+
+
+
+function complete(id){
+
+    yyxcomfirm(function(){
+
+        yyxajax("__CONTROLLER__/Complete",{"id":id},function(ret){
+
+                        if(ret==1){
+
+                                alert('操作成功，订单完成！');
+
+                                self.location="__CONTROLLER__/Index";
+
+                        }else{
+
+                            yyxalert('网络繁忙！');
+
+                        }
+
+
+
+                    })
+
+    },"确定订单已经完成？","完成提醒！")
+
+}
+
+
+
+function qdps(name){
+
+    var p_name="确定选择"+$("#"+name+" option:selected").text()+"进行派送？";
+
+    yyxcomfirm(function(){
+
+        yyxajax("__CONTROLLER__/check_P",{"o_id":$("#"+name).data("val"),"p_id":$("#"+name+" option:selected").val()},function(ret){
+
+                        if(ret==1){
+
+                                alert('选择成功，请到订单列表查看详情！');
+
+                                self.location="__CONTROLLER__/F_order";
+
+                        }else{
+
+                            alert('分配失败，订单已经取消！');
+
+                        }
+
+
+
+                    })
+
+    },p_name,"选择提醒！")
+
+}
+
+
+
+function go2info() {
+
+    window.location.href="{:U('Admin/Shopper/Info')}"
+
+}
+
+function del(id){
+    yyxcomfirm(function(){
+        yyxajax("__CONTROLLER__/del",{"id":id},function(ret){
+                        if(ret==1){
+                                self.location="__CONTROLLER__/F_order";
+                        }else{
+                            yyxalert('网络繁忙！');
+                        }
+
+                    },"get")
+    })
+}
+
+
+
+
+
+
+
+</script>
+
+<include file="Base/foot" />

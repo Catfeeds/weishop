@@ -1,0 +1,243 @@
+<include file="Base/header" />
+<include file="Base/menu" /> 
+<style type="text/css">
+	.dataTables_filter label{float: right;}
+	.pagination{margin: 0px;float: right;}
+</style>	
+
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+
+		<div class="page-content">
+
+			<!-- BEGIN PAGE CONTAINER-->
+
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE HEADER-->
+
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+						<h3 class="page-title">
+
+							主页 <small>这里是xx平台管理后台</small>
+
+						</h3>
+
+						<ul class="breadcrumb">
+
+							<li>
+								<i class="icon-home"></i>
+								<a href="index.html">Home</a> 
+								<i class="icon-angle-right"></i>
+							</li>
+							<li>
+								<a href="#">Layouts</a>
+								<i class="icon-angle-right"></i>
+							</li>
+							<li><a href="#">Blank Page</a></li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+
+
+				<!-- yyx 内容 -->
+
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+						<div class="portlet box blue">
+
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-globe"></i>Managed Table</div>
+
+								<div class="tools">
+
+									<a href="javascript:;" class="collapse"></a>
+
+									<a href="#portlet-config" data-toggle="modal" class="config"></a>
+
+									<a href="javascript:;" class="reload"></a>
+
+									<a href="javascript:;" class="remove"></a>
+
+								</div>
+
+							</div>
+
+							<div class="portlet-body">
+
+								<div class="clearfix">
+
+									<div class="btn-group">
+
+										<button id="sample_editable_1_new" class="btn green">
+
+										Add New <i class="icon-plus"></i>
+
+										</button>
+
+									</div>
+
+									<div class="btn-group pull-right">
+
+										<button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="icon-angle-down"></i>
+
+										</button>
+
+										<ul class="dropdown-menu pull-right">
+
+											<li><a href="#">Print</a></li>
+
+											<li><a href="#">Save as PDF</a></li>
+
+											<li><a href="#">Export to Excel</a></li>
+
+										</ul>
+
+									</div>
+
+								</dv>
+
+
+						<table class="table table-striped table-hover" id="sample_2">
+										<thead>
+											<tr>
+												<th>Photo</th>
+												<th class="hidden-phone">Fullname</th>
+												<th>Username</th>
+												<th class="hidden-phone">Joined</th>
+												<th class="hidden-phone">Points</th>
+												<th>Status</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+
+												<td><img src="media/image/avatar1.jpg" alt=""></td>
+
+												<td class="hidden-phone">Mark Nilson</td>
+
+												<td>makr124</td>
+
+												<td class="hidden-phone">19 Jan 2012</td>
+
+												<td class="hidden-phone">1245</td>
+
+												<td><span class="label label-success">Approved</span></td>
+
+												<td><a class="btn mini red-stripe" href="#">View</a></td>
+											</tr>
+										</tbody>
+
+						</table>
+
+					
+						<table class="table table-striped table-bordered table-hover" id="sample_1">
+
+									<thead>
+
+										<tr>
+
+											<th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
+
+											<th>Username</th>
+
+											<th class="hidden-480">Email</th>
+
+											<th class="hidden-480">Points</th>
+
+											<th class="hidden-480">Joined</th>
+											<th class="hidden-480">我家</th>
+											<th class="hidden-480">我家</th>
+										</tr>
+									</thead>
+
+									<tbody>
+
+										<tr class="odd gradeX">
+
+											<td><input type="checkbox" class="checkboxes" value="1" /></td>
+
+											<td>shuxer</td>
+
+											<td class="hidden-480"><a href="mailto:shuxer@gmail.com">shuxer@gmail.com</a></td>
+
+											<td class="hidden-480">120</td>
+
+											<td class="center hidden-480"></td>
+
+											<td ><span class="label label-success">Approved</span></td>
+											<td ><span class="label label-success">你家</span></td>
+										</tr>
+
+										<tr class="odd gradeX">
+
+											<td><input type="checkbox" class="checkboxes" value="1" /></td>
+
+											<td>looper</td>
+
+											<td class="hidden-480">	<img src="__PUBLIC__/media/image/image4.jpg" alt="logo" / style="height:45px;width:45px"></td>
+
+											<td class="hidden-480">120</td>
+
+											<td class="center hidden-480">12.12.2011</td>
+
+											<td ><span class="label label-warning">Suspended</span></td>
+											<td ><span class="label label-success">w我家</span></td>
+
+										</tr>
+
+									</tbody>
+
+						</table>
+
+	
+								
+									
+
+
+							</div>
+
+						</div>
+
+						<!-- END EXAMPLE TABLE PORTLET-->
+
+					</div>
+
+				</div>
+
+
+
+
+			</div>
+		</div>
+
+<script type="text/javascript" src="__PUBLIC__/media//js/select2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/media//js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="__PUBLIC__/media//js/DT_bootstrap.js"></script>
+
+<script src="__PUBLIC__/media//js/table-managed.js"></script> 
+
+<script>
+
+jQuery(document).ready(function() {       
+   App.init();
+   TableManaged.init();
+});
+
+</script>
+<include file="Base/foot" /> 
+
+

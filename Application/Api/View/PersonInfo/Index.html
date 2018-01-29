@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>个人中心</title>
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/common2.css" />
+    <link href="__PUBLIC__/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/common.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/index.css">
+    <style type="text/css">
+    #PersonInfo{color: #78aab5;}
+    body{overflow-y:scroll ;overflow-x:hidden;max-width: 100%}
+
+
+    .ul-color{margin-bottom: 10px;}
+    .guajian{position: absolute;width: 50px;height: 50px;top: 10px;right: 10px;z-index: 9999;}
+    .guajian img{width: 100%;height: 100%;}
+    .donghua{
+        -webkit-animation-name: myfirst;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-delay: 0s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-direction: alternate;
+        -webkit-animation-play-state: running;
+        }
+    @-webkit-keyframes myfirst /* Safari and Chrome */
+    {
+        0%   {width:50px;height: 50px}
+        100% {width:55px;height: 55px}
+    }
+    .col-muen{border-top: none}
+    .top{background-image: url(__PUBLIC__{$pre.img});background-size: 100% 100%}
+    .order_img{height: 80px;padding: 10px;border-top: 1px solid #e0e0e0;overflow: hidden;}
+    .ico{font-size: 12px;color: #e4e4e4;margin-left: 5px}
+    .hbox{text-align: center;}
+    .img_3{height: 60px;text-align: center;}
+    .img_3 img{height: 100%;margin: 0px auto}
+    .myxian{border-bottom: 1px solid #e0e0e0;}
+    </style>
+</head>
+<body>
+ <if condition="$pre[dzp] eq 1">
+ <if condition="$vo['balance'] gt 0 ">
+    <div class="guajian donghua" onclick="choujian()">
+ <else />
+    <div class="guajian" onclick="choujian()">
+ </if>
+
+     <img src="__PUBLIC__/dzp/images/dzp.png">
+</div>
+</if>
+<div>
+    <div class="top">
+        <div class="topimg center topimg-padding">
+            <div class="final-top-img">
+                <div class="img-in-div center">
+                    <img src="{$vo.img}">
+                </div>
+            </div>
+            <div class="user-name">{$vo.username}</div>
+        </div>
+        <div class="top-s-down">
+            <ul class="center ul-color">
+               <!--  <li>
+                    <a>
+                        <div>余额</div>
+                        <div class="balance">
+                            {$vo.balance}<span>元</span>
+                        </div>
+                    </a>
+                </li> -->
+                <li class="center">
+                    <a href="{:U('Api/PersonInfo/Cent')}">
+                        <span>积分：</span>
+                        <span class="balance">
+                            {$vo.cent}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="xuxian"></div>
+    <div class="t-muen">
+        <div class="col-muen" onclick="go2order(0)">
+            <a>
+                <span>&nbsp;&nbsp;我的订单</span>
+
+                <i class="right-i">查看全部订单<i class="fa fa-chevron-right fa-lg ico"></i></i>
+            </a>
+        </div>
+        <div class="box order_img" >
+            <div class="hbox" onclick="go2order(0)">
+                <div class="img_3"><img src="__PUBLIC__/order1.jpg"></div>
+
+            </div>
+            <div class="hbox" onclick="go2order(1)">
+                <div class="img_3"><img src="__PUBLIC__/order2.jpg"></div>
+
+            </div>
+            <div class="hbox" onclick="go2order(2)">
+                <div class="img_3" ><img src="__PUBLIC__/order3.jpg"></div>
+            </div>
+        </div>
+         <div class="xuxian"></div>
+
+
+      <!--   <div class="col-muen myxian" onclick="go2order()">
+
+                <div class="center">
+                    <i class="fa  fa-shopping-cart fa-lg col-muen-first-i"></i>
+                </div>
+                <span>订单</span>
+                <i class="fa fa-chevron-right fa-lg right-i"></i>
+
+        </div> -->
+
+        <div class="col-muen myxian" onclick="go2giftcart()">
+                <div class="center">
+                    <i class="fa  fa-gift fa-lg col-muen-first-i"></i>
+                </div>
+                <span>礼品</span>
+                <i class="fa fa-chevron-right fa-lg right-i"></i>
+
+        </div>
+
+
+        <div class="col-muen myxian" onclick="go2address()">
+
+                <div class="center">
+                    <i class="fa fa-map-marker fa-lg col-muen-first-i"></i>
+                </div>
+                <span>我的地址</span>
+                <i class="fa fa-chevron-right fa-lg right-i"></i>
+
+        </div>
+
+        <if condition="$pre[dzp] eq 1">
+        <div class="col-muen myxian" onclick="choujian()">
+
+                <div class="center">
+                    <i class="fa fa-globe fa-lg col-muen-first-i"></i>
+                </div>
+                <span>大转盘</span>
+                <i class="fa fa-chevron-right fa-lg right-i"></i>
+
+        </div>
+
+        <div class="col-muen myxian" onclick="zpjl()">
+                <div class="center">
+                    <i class="fa  fa-gift fa-lg col-muen-first-i"></i>
+                </div>
+                <span>转盘奖励</span>
+                <i class="fa fa-chevron-right fa-lg right-i"></i>
+
+        </div>
+        </if>
+
+        <div class="col-muen" onclick="women()">
+
+                <div class="center">
+                    <i class="fa fa-exclamation-circle fa-lg col-muen-first-i"></i>
+                </div>
+                <span>关于我们</span>
+                <i class="fa fa-chevron-right fa-lg right-i"></i>
+
+        </div>
+    </div>
+    <div class="xuxian"></div>
+    <div class="down-phone center">
+        <a href="tel:{$pre.mobile}">
+            <i class="fa fa-phone fa-lg"></i>
+            <span>{$pre.mobile}</span>
+        </a>
+    </div>
+    <div class="xuxian"></div>
+    <div class="hhh"></div>
+    <include file="Base/Bottom"/>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/cookie.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.cookie.js"></script>
+<script type="text/javascript">
+
+    function go2order(id){
+         var url="__CONTROLLER__/Order?status="+id;
+        window.location.href=url;
+    }
+
+    function go2address(){
+        window.location.href="{:U('Api/PersonInfo/Address')}"
+    }
+
+    function go2giftcart () {
+        window.location.href="{:U('Api/PersonInfo/Gift_cart')}"
+    }
+    function choujian(){
+         window.location.href="{:U('Api/Index/Dzp')}"
+    }
+    function women(){
+        window.location.href="{:U('Api/PersonInfo/Women')}"
+    }
+    function zpjl(){
+        window.location.href="{:U('Api/PersonInfo/Dap_jl')}"
+    }
+
+</script>
+</body>
+</html>

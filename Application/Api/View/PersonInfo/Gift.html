@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>积分商城</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/common2.css" />
+    <link href="__PUBLIC__/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/common.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/index.css">
+    <style type="text/css">
+    #gift{color: #78aab5;}
+    .center{text-align: center;}
+    .list_item .cont .text-overflow {
+                    display:block;/*内联对象需加*/
+                    width:10em;
+                    word-break:keep-all;/* 不换行 */
+                    white-space:nowrap;/* 不换行 */
+                    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+                    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+    }
+    .red{color: #78aab5;}
+    .minus{display: none;}
+    .u-flyer {display: block;width: 50px;height: 50px;border-radius: 50px;position: fixed;z-index: 9999;}
+    .cont h2{margin: 0;}
+    .hboximg{width:80px;margin-top: 8px;margin-left: 8px;}
+    .hboximg img{width: 100%;height: 79px;}
+    .titlem{margin-top:8px; margin-left: 8px;margin-right: 8px;border-bottom: 1px solid #e0e0e0;}
+    .hprice{font-weight: 700;}
+    .mtitle{font-size: 15px;}
+    .ftitle{font-size: 13px;}
+    .mtitle,.ftitle{color: #8e8e8e;}
+    .num-c{width: 1em;margin-left:10px;margin-right: 10px;}
+    .num-c span{float:right;text-align: center;}
+    .qing{color: #78aab5;}
+    .xx{width: 100%;height:10px;border-bottom: 1px solid #e0e0e0;border-top: 1px solid #e0e0e0;
+        margin-top: 8px;background-color: #f5f4f9;}
+    .duihuan{line-height: 50px;z-index: 999;}
+    .duihuan span,.hyx-jf span,.classname{background-color: #78aab5;color: #fff;padding-top: 3px;padding-bottom: 3px;padding-left: 14px;padding-right: 14px;color: #fff;border-radius:5px;}
+
+     .tc,.tc0{
+        width: 100%;
+        height: 100%;
+        z-index: 9998;
+        position: fixed;
+        top: 0;
+        display: none;
+    }
+    .tc0{
+      z-index:0;
+      opacity: 0.5;
+      background-color: #000;
+    }
+    .nei{
+        z-index: 99999;
+        text-align: center;
+        margin: 0 auto;
+        background-color: #fff;
+        height: 80px;
+        width: 200px;
+        margin-top: 200px;
+        border-radius: 5px;
+    }
+    .nei-n{border-top: 1px solid #e0e0e0;padding-top: 10px;}
+    .nei-l{border-left: 1px solid #e0e0e0;}
+    .tcx{height: 40px;line-height:40px;text-align: center;}
+    .one-shop{margin-top: 8px;}
+    .hyx-dhl{height: 45px;border-bottom: 1px solid #e0e0e0;box-shadow:0 0.5px 0 #e0e0e0;text-align: center;line-height: 45px;}
+    .hall,.hfl{width: 63px;border-right: 2px solid #e0e0e0;height:22px;margin-top: 13px;line-height: 22px;}
+    .hfl{width: 80px;}
+    .dhimg{width: 20px;height: 20px;text-align: center;margin-right: 14px;}
+    .hjifen{height: 45px;background-color:#f4f5f9;padding-right: 12px;padding-left: 12px;line-height: 45px;}
+    .cent1{font-weight: 700;font-size: 15px;color: #78aab5;}
+    .detail{color: #78aab5;}
+    #gift1{display: none;}
+    .f-x{width: 10px;}
+    .s-one{margin-top: 10px;color: #8e8e8e;}
+    .soneleft{padding:5px 0px 5px 14px;}
+    .soneright{padding:5px 14px 5px 0px;}
+    .s-one-img{height: 133px;}
+    .s-one-img img{height:100%;width: 100%;}
+    .t-tile{margin-top:5px;font-size:14px;}
+    .row{margin: 0;}
+    .hyx-jf{margin-top: 5px;font-size: 11px;}
+    .hleft{margin-left: 5px;}
+    .fa-sort-up{position:absolute;top:19px;}
+    .fa-sort-desc{position:absolute;top:13px;}
+    .classlb{background-color: #fff;z-index: 99;width: 100%;border-bottom: 1px solid #e0e0e0;overflow: auto;display: none;}
+    .classname{margin-left: 14px;float: left;margin-top:8px;margin-bottom:8px;}
+    .yyx_gai{margin-top: 8px;}
+    .text1 {
+       word-break:break-all;
+       display:-webkit-box;
+       -webkit-line-clamp:1;
+       -webkit-box-orient:vertical;
+       overflow:hidden;
+    }
+    </style>
+</head>
+<body>
+<div class="hshop">
+  <div class="hyx-dhl box">
+      <div class="hall" id="all">全部</div>
+      <div id="fl" class="hfl" onclick="classdesc(this)">分类<i class="fa fa-sort-desc hleft"></i>&nbsp;&nbsp;</div>
+      <div class="hbox" onclick="centdesc(this)">按积分排序<i class="fa fa-sort-desc hleft"></i>&nbsp;&nbsp;</div>
+      <div><img onclick="changeD(this)" class="dhimg" src="__PUBLIC__/img/h1.jpg"></div>
+  </div>
+  <div class="classlb">
+    <foreach name="class" item="vo">
+     <span class="classname" data-v="{$vo.id}">{$vo.classname}</span>
+    </foreach>
+  </div>
+  <div class="box hjifen">
+      <div class="hbox">我的可用积分&nbsp<span class="cent1">{$user.cent}</span></div>
+      <div class="detail" onclick="go2cent()">详情</div>
+  </div>
+
+  <div id="gift1"></div>
+  <script id="script-model1" type="text/x-dot-template">
+   {{ for(var i=0,l=it.length; i<l; i++){ }}
+    <div class="box one-shop" id="gift1{{=it[i].id}}">
+        <div class="hboximg" onclick="detail('{{=it[i].id}}')">
+            <img class="" src="__PUBLIC__/{{=it[i].img}}">
+        </div>
+        <div class="titlem hbox">
+            <div class="box">
+                <div class="hbox">
+                    <div class="mtitle text1">{{=it[i].title}}</div>
+                    <div class="ftitle yyx_gai">积分：{{=it[i].cent}}</div>
+                </div>
+                <div class="duihuan yyx_gai" onclick="fun_dh('{{=it[i].id}}')">
+                    <span id="id_dui">兑换</span>
+                </div>
+            </div>
+            <div class="ftitle box">
+                <div class="">库存：</div>
+                <div id="count1{{=it[i].id}}">{{=it[i].count}}</div>
+            </div>
+        </div>
+    </div>
+    {{ } }}
+  </script>
+
+  <div id="gift2"></div>
+
+ <script id="script-model2" type="text/x-dot-template">
+ {{ for(var i=0,l=it.length; i<l; i++){ }}
+  <div class="row">
+      <div class="col">
+         <div class="s-one soneleft">
+             <div class="s-one-img" onclick="detail('{{=it[i].id}}')">
+                  <img src="__PUBLIC__/{{=it[i].img}}">
+              </div>
+              <div class="t-tile box text1">{{=it[i].title}}</div>
+              <div class="t-tile box">
+                  <div class="">库存：</div>
+                  <div id="count{{=it[i].id}}">{{=it[i].count}}</div>
+              </div>
+              <div class="box hyx-jf">
+                  <div class="hbox">所需积分：{{=it[i].cent}}</div>
+                  <div onclick="fun_dh('{{=it[i].id}}')"><span>兑换</span></div>
+              </div>
+         </div>
+      </div>
+      <div class="f-x"></div>
+      <div class="col">
+       {{? it[i+1]!=null }}
+         <div class="s-one soneright">
+             <div class="s-one-img" onclick="detail('{{=it[++i].id}}')">
+                  <img src="__PUBLIC__/{{=it[i].img}}">
+              </div>
+              <div class="t-tile">{{=it[i].title}}</div>
+              <div class="t-tile box">
+                  <div class="">库存：</div>
+                  <div id="count{{=it[i].id}}">{{=it[i].count}}</div>
+              </div>
+              <div class="box hyx-jf">
+                  <div class="hbox">所需积分：{{=it[i].cent}}</div>
+                  <div onclick="fun_dh('{{=it[i].id}}')"><span>兑换</span></div>
+              </div>
+         </div>
+        {{?}}
+      </div>
+  </div>
+  {{ } }}
+</script>
+
+</div>
+<!-- 购物车 -->
+
+<include file="Base/Bottom"/>
+
+<div class="tc0"></div>
+<div class="tc">
+    <div class="nei">
+        <div class="tcx">确定兑换？</div>
+        <div class="box">
+            <div id="tc_sure" class="hbox nei-n red">确定</div>
+            <div id="tc_quxiao" class="hbox nei-n nei-l">取消</div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/cookie.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/msgalert.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.cookie.js"></script>
+<script type="text/javascript">
+    var json={$gift|json_encode};
+    $('#gift1').html(doT.template($('#script-model1').text())(json));
+    $('#gift2').html(doT.template($('#script-model2').text())(json));
+
+
+    function centup(obj){
+      $(obj).attr('onclick','centdesc(this)');
+      $(obj).children().removeClass('fa-sort-up');
+      $(obj).children().addClass('fa-sort-desc');
+      centajax(1);
+    }
+
+    function centdesc(obj){
+      $(obj).attr('onclick','centup(this)');
+      $(obj).children().removeClass('fa-sort-desc');
+      $(obj).children().addClass('fa-sort-up');
+      centajax(2);
+    }
+
+    $('#all').click(function(){
+      centajax(3);
+    });
+
+    function centajax(cent){
+       $.ajax({
+                    type:'post',
+                    url:"{:U('Api/PersonInfo/Gift')}",
+                    data:{'cent':cent},
+                    success:function(data){
+                         $('#gift1').html(doT.template($('#script-model1').text())(data));
+                         $('#gift2').html(doT.template($('#script-model2').text())(data));
+                    }
+                })
+    }
+
+    $('.classname').click(function(){
+      classup('#fl');
+      $.ajax({
+                type:'post',
+                url:"{:U('Api/PersonInfo/Gift')}",
+                data:{'class_id':$(this).data('v')},
+                success:function(data){
+                     $('#gift1').html(doT.template($('#script-model1').text())(data));
+                     $('#gift2').html(doT.template($('#script-model2').text())(data));
+                }
+              })
+    })
+
+    function classdesc(obj) {
+      $(obj).attr('onclick','classup(this)');
+      $(obj).children().removeClass('fa-sort-desc');
+      $(obj).children().addClass('fa-sort-up');
+      $('.classlb').show();
+    }
+
+    function classup(obj){
+      $(obj).attr('onclick','classdesc(this)');
+      $(obj).children().removeClass('fa-sort-up');
+      $(obj).children().addClass('fa-sort-desc');
+      $('.classlb').hide();
+    }
+
+    //双排
+     function changeD(obj){
+      $('#gift2').hide();
+      $('#gift1').show();
+      $(obj).attr('src','__PUBLIC__/img/h2.jpg');
+      $(obj).attr('onclick','changeS(this)')
+    }
+
+    // 单排
+    function changeS(obj){
+      $('#gift1').hide();
+      $('#gift2').show();
+      $(obj).attr('src','__PUBLIC__/img/h1.jpg');
+      $(obj).attr('onclick','changeD(this)')
+    }
+
+    function detail (id) {
+        window.location.href="{:U('Api/PersonInfo/Gift_detail/id/"+id+"')}";
+    }
+
+    $('.tc').bind("click",function(e){
+            var target  = $(e.target);
+            if(target.closest(".nei").length == 0){
+                /*.closest()沿 DOM 树向上遍历，直到找到已应用选择器的一个匹配为止，返回包含零个或一个元素的 jQuery 对象。*/
+                $('.tc0').hide();
+                $('.tc').hide();
+            }
+            e.stopPropagation();
+    });
+
+    var bool=true;
+    function fun_dh (id) {
+        $('.tc0').show();
+        $('.tc').show();
+        $('#tc_sure').one('click',function(){
+                if (bool) {
+                    bool=false;
+                }else return false;
+                $.ajax({
+                    type:'post',
+                    url:"{:U('Api/PersonInfo/Buygift')}",
+                    data:{'id':id},
+                    success:function(data){
+                        if (data.count==1) {
+                            pop_alert('库存不足');
+                        }
+                        if (data.cent==1) {
+                            pop_alert('积分不足');
+                        }
+                        if (data.add>0) {
+                            pop_alert('兑换成功');
+                            window.location.href="__MODULE__/PersonInfo/Address2?id="+data.add
+                            // var c=$("#count"+id).html()-1;
+                            // $("#count"+id).html(c);
+                            // $("#count1"+id).html(c);
+                        }
+                        bool=true;
+                    }
+                });
+                $('.tc0').hide();
+                $('.tc').hide();
+        });
+
+        $('#tc_quxiao').one('click',function(){
+            $('.tc0').hide();
+            $('.tc').hide();
+        })
+    }
+
+
+    function go2cent() {
+      window.location.href="{:U('Api/PersonInfo/Cent')}";
+    }
+</script>
+</html>

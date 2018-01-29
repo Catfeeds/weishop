@@ -1,0 +1,155 @@
+<include file="Base/header" />
+<include file="Base/menu" />
+<style type="text/css">
+    .dataTables_filter label{float: right;}
+    .pagination{margin: 0px;float: right;}
+    span.yyx_error{margin-top: 6px;padding-left: 5px;display:inline-block;color: red}
+</style>
+
+        <!-- END SIDEBAR -->
+
+        <!-- BEGIN PAGE -->
+
+        <div class="page-content">
+
+            <!-- BEGIN PAGE CONTAINER-->
+
+            <div class="container-fluid">
+
+                <!-- BEGIN PAGE HEADER-->
+
+                <div class="row-fluid">
+
+                    <div class="span12">
+
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+                        <h3 class="page-title">
+
+
+                        </h3>
+
+                        <ul class="breadcrumb">
+
+                            <li>
+                                <i class="icon-home"></i>
+                                <a >系统管理</a>
+                                <i class="icon-angle-right"></i>
+                            </li>
+                            <li>
+                                <a href="#">送货区域管理</a>
+                                <!-- <i class="icon-angle-right"></i> -->
+                            </li>
+                            <!-- <li><a href="#">Blank Page</a></li> -->
+                        </ul>
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+                    </div>
+                </div>
+
+
+                <!-- yyx 内容 -->
+                <div class="row-fluid">
+
+                    <div class="span12">
+
+                        <!-- BEGIN SAMPLE FORM PORTLET-->
+
+                        <div class="portlet box blue">
+
+                            <div class="portlet-title">
+
+                                <div class="caption"><i class="icon-reorder"></i>地址列表</div>
+
+                                <div class="tools">
+
+                                    <a href="javascript:;" class="collapse"></a>
+
+                                    <a href="javascript:;" class="remove"></a>
+
+                                </div>
+
+                            </div>
+
+                            <div class="portlet-body form">
+
+                                <!-- BEGIN FORM-->
+
+                                <form action="__SELF__" class="form-horizontal" id="form1" method="post">
+                                    <input type="hidden" value="{$data.id}" name="id">
+                                    <div class="control-group">
+
+                                        <label class="control-label">区域名称</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span3 m-wrap" name="city" value="{$data.city}" >
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="form-actions">
+                                        <button class="btn blue">保存</button>
+                                    </div>
+
+                                </form>
+
+                                <!-- END FORM-->
+
+                            </div>
+
+                        </div>
+
+                        <!-- END SAMPLE FORM PORTLET-->
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+<script type="text/javascript" src="__PUBLIC__/media//js/select2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/media//js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="__PUBLIC__/media//js/DT_bootstrap.js"></script>
+
+<script src="__PUBLIC__/media//js/table-managed.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+
+jQuery(document).ready(function() {
+    $('#form1').validate({
+        rules:{city:{required:true},
+              },
+        messages:{city:"请输区域名称",
+              },
+        submitHandler: function (form) {
+                    var data=$(form).serialize();
+                    yyxajax("__SELF__",data,function(ret){
+                        if(ret==100){
+                            yyxalert("保存成功",1500)
+                            setTimeout(function() {
+                              self.location="__CONTROLLER__/City";
+                            }, 1500);
+                        }
+                    })
+        },
+        errorPlacement: function(error, element) {
+                element.after(error);
+
+        },
+        errorClass:"yyx_error",
+        errorElement:"span"
+    });
+});
+
+</script>
+<include file="Base/foot" />
+
+

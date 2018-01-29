@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>订单</title>
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/common.css">
+    <style type="text/css">
+    .top{height: 40px;background-color: #78aab5;width: 100%;position: relative;}
+    .top div{line-height: 40px;color: #FFFFFF;}
+    .xuxian{height: 10px;width: 100%;background-color: #F8F8F8;}
+    .order-id{float: left;margin-left: 14px;}
+    .order-status{float: right;margin-right: 14px;}
+    .order-status span{color: #FFFFFF;background-color:#78aab5;border-radius: 3px;}
+    .order-top{height:34px;}
+    .order-id,.order-status{line-height: 34px;}
+    .order-down{border-top: 1px dashed #e0e0e0;height: 54px;}
+    .order-down-left{float: left;margin-left: 14px;margin-top: 14px;}
+    .order-down-right{float: right;line-height: 50px;margin-right: 14px;}
+    .order-down-left span{margin-left: 2px;}
+    .fa1{font-size: 16px;}
+    .left-time{color: #8e8a8a;margin-top: 4px;}
+    .order-status span{padding:2px 4px 2px 4px;}
+    .xox{text-align: center;height:38px;line-height: 38px;}
+    .act{border-bottom: 2px solid #78aab5;}
+
+    /*弹窗*/
+      .tc1,.tc,.tc0{
+      width: 100%;
+      height: 100%;
+      z-index: 9998;
+      position: fixed;
+      top: 0;
+      display: none;
+       }
+      .tc0{
+        z-index:0;
+        opacity: 0.5;
+        background-color: #000;
+      }
+      .nei{
+          z-index: 99999;
+          text-align: center;
+          margin: 0 auto;
+          background-color: #fff;
+          height: 80px;
+          width: 200px;
+          margin-top: 200px;
+          border-radius: 5px;
+      }
+      .nei-n{border-top: 1px solid #e0e0e0;padding-top: 10px;}
+      .nei-l{border-left: 1px solid #e0e0e0;}
+      .red{color: #78aab5;}
+      .tcx{height: 40px;line-height:40px;text-align: center;}
+      .text-overflow {
+                    display:block;/*内联对象需加*/
+                    width:14em;
+                    word-break:keep-all;/* 不换行 */
+                    white-space:nowrap;/* 不换行 */
+                    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+                    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+       }
+    </style>
+</head>
+<body>
+<div class="tc0"></div>
+<div class="tc">
+    <div class="nei">
+        <div class="tcx">取消订单？</div>
+        <div class="box">
+            <div id="tc_sure" class="hbox nei-n red">确定</div>
+            <div id="tc_quxiao" class="hbox nei-n nei-l">取消</div>
+        </div>
+    </div>
+</div>
+
+<div class="tc0"></div>
+<div class="tc1">
+    <div class="nei">
+        <div class="tcx">确定退款？</div>
+        <div class="box">
+            <div id="tc_sure1" class="hbox nei-n red">确定</div>
+            <div id="tc_quxiao1" class="hbox nei-n nei-l">取消</div>
+        </div>
+    </div>
+</div>
+
+
+
+<div>
+    <div class="box xox">
+        <div id="none" class="hbox status-c " data-status='0'>未支付</div>
+        <div id="all" class="hbox status-c" data-status='1'>待配送</div>
+        <div id="ing" class="hbox status-c" data-status='2'>配送中</div>
+        <div id="tk" class="hbox status-c" data-status='4'>退款</div>
+        <div id="compl" class="hbox status-c" data-status='3'>完成</div>
+    </div>
+
+
+
+    <div id="orderItem"></div>
+    <script id="script-model" type="text/x-dot-template">
+      {{ for(var i=0,l=it.length; i<l; i++){ }}
+        <div id="item{{=it[i].id}}">
+            <div class="xuxian"></div>
+          {{? it[i].status==0}}
+            <div class="order-top" onclick="quxiao({{=it[i].id}})">
+          {{?? it[i].status==6}}
+            <div class="order-top" onclick="quxiao({{=it[i].id}})">
+          {{?? it[i].status==1 }}
+            <div class="order-top" onclick="tuikuan({{=it[i].id}})">
+          {{??}}
+            <div class="order-top">
+          {{?}}
+                <div class="order-id">订单号：{{=it[i].l_id}}</div>
+                <div class="order-status">
+                   {{? it[i].status==0}}
+                    <span>取消订单</span>
+                   {{?? it[i].status==1}}
+                    <span>退款</span>
+                   {{?? it[i].status==2}}
+                    <span>配送中</span>
+                   {{?? it[i].status==3}}
+                    <span>完成</span>
+                   {{?? it[i].status==4}}
+                    <span>退款中</span>
+                   {{?? it[i].status==5}}
+                    <span>已退款</span>
+                   {{?? it[i].status==6}}
+                    <span>货到付款</span>
+                   {{?}}
+                   </if>
+                </div>
+            </div>
+            <div class="order-down" onclick="go2details({{=it[i].id}})">
+                <div class="order-down-left">
+                    <div class="text-overflow">{{=it[i].detail[0].name}}</div>
+                    <div class="left-time">{{=func_date(it[i].add_time)}}</div>
+                </div>
+                <div class="order-down-right">
+                    ￥
+                    <span>{{=it[i].total}}</span>
+                </div>
+            </div>
+        </div>
+        {{ } }}
+    </script>
+    <div class="xuxian"></div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/api/doT.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/msgalert.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+    var json={$order|json_encode};
+    $('#orderItem').html(doT.template($('#script-model').text())(json));
+    var a={$num};
+    $('.status-c').eq(a).addClass('act');
+
+       $('.status-c').click(function(){
+          $('.status-c').removeClass('act');
+          $(this).addClass('act');
+          $.ajax({
+            type:'POST',
+            url:"{:U('Api/PersonInfo/Order')}",
+            data:{'status':$(this).data('status')},
+            success:function(data){
+                $('#orderItem').html(doT.template($('#script-model').text())(data));
+            }
+          })
+       });
+    });
+
+    function go2details(id){
+        // var url="{:U('Api/PersonInfo/Order_details/id/"+id+"')}";
+         var url="__CONTROLLER__/Order_details?id="+id;
+        window.location.href=url;
+    }
+
+    //时间戳改为年月日
+    function func_date(time){
+      // return "aa";
+      var date=new Date(parseInt(time)*1000);
+      var year=date.getFullYear();  // 获取完整的年份(4位,1970)
+      var month=date.getMonth()+1;  // 获取月份(0-11,0代表1月,用的时候记得加上1)
+      var day=date.getDate();    //获取日
+      return year+"-"+month+"-"+day;
+    }
+
+    // function quxiao(id){
+    //       $.ajax({
+    //         type:'POST',
+    //         url:"{:U('Api/PersonInfo/cancel')}",
+    //         data:{'id':id},
+    //         success:function(data){
+    //             if (true) {
+    //                $("#item"+id).remove();
+    //             }
+    //         }
+    //       })
+    // }
+
+     $('.tc').bind("click",function(e){
+            var target  = $(e.target);
+            if(target.closest(".nei").length == 0){
+                /*.closest()沿 DOM 树向上遍历，直到找到已应用选择器的一个匹配为止，返回包含零个或一个元素的 jQuery 对象。*/
+                $('.tc0').hide();
+                $('.tc').hide();
+            }
+            e.stopPropagation();
+    });
+
+    $('.tc1').bind("click",function(e){
+            var target  = $(e.target);
+            if(target.closest(".nei").length == 0){
+                /*.closest()沿 DOM 树向上遍历，直到找到已应用选择器的一个匹配为止，返回包含零个或一个元素的 jQuery 对象。*/
+                $('.tc0').hide();
+                $('.tc1').hide();
+            }
+            e.stopPropagation();
+    });
+
+    var bool=true;
+    function quxiao(id) {
+        $('.tc0').show();
+        $('.tc').show();
+        $('#tc_sure').one('click',function(){
+                if (bool) {
+                    bool=false;
+                }else return false;
+                $.ajax({
+                    type:'POST',
+                    url:"{:U('Api/PersonInfo/cancel')}",
+                    data:{'id':id},
+                    success:function(data){
+                        bool=true;
+                        if (data==1) {
+                          pop_alert('取消成功');
+                          $("#item"+id).remove();
+                        }else{
+                          pop_alert('网络异常');
+                        }
+                    }
+                  })
+                $('.tc0').hide();
+                $('.tc').hide();
+        });
+
+        $('#tc_quxiao').one('click',function(){
+            $('.tc0').hide();
+            $('.tc').hide();
+        })
+    }
+
+
+    var bool1=true;
+    function tuikuan(id) {
+        $('.tc0').show();
+        $('.tc1').show();
+        $('#tc_sure1').one('click',function(){
+                if (bool1) {
+                    bool1=false;
+                }else return false;
+                $.ajax({
+                    type:'POST',
+                    url:"{:U('Api/PersonInfo/out')}",
+                    data:{'id':id},
+                    success:function(data){
+                        bool1=true;
+                        if (data==1) {
+                          pop_alert('申请成功');
+                          $("#item"+id).remove();
+                        }else{
+                          pop_alert('网络异常');
+                        }
+                    }
+                  })
+                $('.tc0').hide();
+                $('.tc1').hide();
+        });
+
+        $('#tc_quxiao1').one('click',function(){
+            $('.tc0').hide();
+            $('.tc1').hide();
+        })
+    }
+</script>
+</body>
+</html>

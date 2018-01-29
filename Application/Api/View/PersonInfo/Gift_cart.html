@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/personinfo/common.css">
+    <style type="text/css">
+    .top{height: 40px;background-color: #78aab5;width: 100%;position: relative;}
+    .top div{line-height: 40px;color: #FFFFFF;}
+    .xuxian{height: 10px;width: 100%;background-color: #F8F8F8;}
+    .order-id{float: left;margin-left: 14px;}
+    .order-status{float: right;margin-right: 14px;}
+    .order-status span{color: #FFFFFF;background-color:#78aab5;border-radius: 3px;}
+    .order-top{height: 26px;}
+    .order-id,.order-status{line-height: 26px;}
+    .order-down{border-top: 1px dashed #e0e0e0;height: 50px;}
+    .order-down-left{float: left;margin-left: 14px;margin-top: 8px;}
+    .order-down-right{float: right;line-height: 48px;margin-right: 14px;}
+    .order-down-left span{margin-left: 4px;}
+    .fa1{font-size: 16px;}
+    .left-time{color: #8e8a8a;}
+    .order-down-right span{width: 3.5em;display: inline-block;text-align: right;}
+    .hyx-ord :first-child{border:0;}
+    </style>
+</head>
+<body>
+<div>
+    <div class="top center">
+        <div>礼品列表</div>
+    </div>
+  <div class="hyx-ord">
+   <foreach name="gift" item="vo" >
+
+<!--         <div class="xuxian"></div>
+        <div class="order-top">
+            <div class="order-id">订单号：{$vo['l_id']}</div>
+            <div class="order-status">
+               <if condition="$vo['status'] eq 1">
+                <span>完成</span>
+               <else/>
+                <span>派送中</span>
+               </if>
+            </div>
+        </div> -->
+        <div class="order-down" onclick="detail('{$vo.gift_id}')">
+            <div class="order-down-left">
+                <div>{$vo.title}</div>
+                <div class="left-time">{$vo['add_time']|date='Y-m-d',###}<span>{$vo['add_time']|date='H:i:s',###}</span></div>
+            </div>
+            <div class="order-down-right">
+              <if condition="$vo['status'] eq 2">
+                <span>完成</span>
+              <else/>
+                <span>配送中</span>
+              </if>
+            </div>
+        </div>
+   </foreach>
+  </div>
+    <div class="xuxian"></div>
+</div>
+</body>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+    function detail (id) {
+        window.location.href="{:U('Api/PersonInfo/Gift_detail/id/"+id+"')}";
+    }
+</script>
+</html>

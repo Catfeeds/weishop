@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,maximum-scale=1.0,initial-scale=1.0,user-scalable=0">
+<meta name="format-detection" content="telephone=no">
+    <title>在线验证</title>
+    <style type="text/css">
+        *{margin:0px;padding: 0px}
+        body{font-size:14px; width: 100%;height: 100%;overflow: hidden;background:url(__PUBLIC__/myimg/yzbg.jpg);background-size: 100%,110%}
+        img{width:150px;}
+        .a{text-align: center;margin-top: 40px}
+        .b{padding: 30px 30px 0px 30px}
+        h1{font-size: 18px;text-align: center;}
+        .c{margin-top:10px;}
+        .d{margin-top:25px;}
+        .e{margin-top:5px;}
+        .img{text-align: center;}
+        .img img{width: 200;margin-top:10px;}
+    </style>
+</head>
+<body>
+<div class="a">
+    <img src="__PUBLIC__/myimg/name.png">
+</div>
+<div class="b">
+    <if condition="$res[y] eq 100">
+      <h1>{$res.code}</h1>
+    <else />
+      <h1 style="color:#79abb4">{$res.code}</h1>
+    </if>
+
+    <div class="c">{$res.tishi}</div>
+    <div class="d"></div>
+
+    <div class="e">电话客服：{$res.tel}</div>
+    <div class="e">微信公众号：</div>
+</div>
+<div class="img">
+    <img src="__PUBLIC__/myimg/gz.jpg">
+</div>
+
+</body>
+</html>
